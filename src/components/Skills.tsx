@@ -1,21 +1,19 @@
 import { Link } from 'react-router-dom'
-import { skillGroups } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { Icon } from './Icon'
 
 export function Skills({ hideIntro = false }: { hideIntro?: boolean }) {
+  const { skillGroups, pageHero, ui } = useContent()
   return (
     <section className="section skills-section">
       {!hideIntro && (
         <div className="section-head">
           <div className="section-kicker">
             <Icon name="skills" />
-            <span>Capabilities</span>
+            <span>{pageHero.skills.kicker}</span>
           </div>
-          <h2>Skills</h2>
-          <p>
-            Full-stack engineering for AI products — backend, retrieval, data,
-            and cloud. Every domain is linked to a project where it was applied.
-          </p>
+          <h2>{pageHero.skills.title}</h2>
+          <p>{pageHero.skills.description}</p>
         </div>
       )}
       <div className="skills-grid">
@@ -39,7 +37,7 @@ export function Skills({ hideIntro = false }: { hideIntro?: boolean }) {
                     <span
                       className="skill-level"
                       role="img"
-                      aria-label={`Proficiency ${item.level} out of 5`}
+                      aria-label={ui.proficiency(item.level)}
                     >
                       {Array.from({ length: 5 }).map((_, i) => (
                         <i
@@ -57,7 +55,7 @@ export function Skills({ hideIntro = false }: { hideIntro?: boolean }) {
                 className="skill-group__link"
                 to={`/projects/${group.relatedProjectSlug}`}
               >
-                See it in a project
+                {ui.seeItInAProject}
                 <span className="arrow" aria-hidden="true">
                   →
                 </span>

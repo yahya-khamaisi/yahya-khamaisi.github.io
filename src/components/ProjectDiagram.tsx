@@ -1,11 +1,9 @@
 import { Fragment } from 'react'
-import { projectDiagrams } from '../data/diagrams'
-
-const DEFAULT_NOTE =
-  'Representative architecture — illustrative, not production data or an exact copy of internal tooling.'
+import { useContent } from '../i18n/useContent'
 
 export function ProjectDiagram({ slug }: { slug: string }) {
-  const diagram = projectDiagrams[slug]
+  const { diagrams } = useContent()
+  const diagram = diagrams[slug]
   if (!diagram) return null
 
   return (
@@ -30,7 +28,7 @@ export function ProjectDiagram({ slug }: { slug: string }) {
           </Fragment>
         ))}
       </div>
-      <p className="pdiagram__note">{diagram.footnote ?? DEFAULT_NOTE}</p>
+      {diagram.footnote && <p className="pdiagram__note">{diagram.footnote}</p>}
     </figure>
   )
 }

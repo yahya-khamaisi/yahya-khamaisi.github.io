@@ -1,14 +1,16 @@
 import { Experience } from '../components/Experience'
 import { PageHero } from '../components/PageHero'
+import { useContent } from '../i18n/useContent'
 
 export function ExperiencePage() {
+  const { pageHero } = useContent()
   return (
     <div className="page-stack">
       <PageHero
-        kicker="Career"
+        kicker={pageHero.experience.kicker}
         kickerIcon="experience"
-        title="Experience"
-        description="Five roles, most recent first — from a first backend job to owning an insurance AI portfolio. Education is listed separately."
+        title={pageHero.experience.title}
+        description={pageHero.experience.description}
       />
       <Experience hideIntro />
     </div>

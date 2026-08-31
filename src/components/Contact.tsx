@@ -1,9 +1,11 @@
 import { useState, type FormEvent } from 'react'
-import { profile } from '../data/content'
+import { useContent } from '../i18n/useContent'
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
+  const { profile, pageHero, ui } = useContent()
+  const t = ui.form
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
 
@@ -25,7 +27,7 @@ export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
 
     if (!name || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setStatus('error')
-      setError('Add your name, a valid email, and a message.')
+      setError(t.validationError)
       return
     }
 
@@ -44,7 +46,7 @@ export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
           body: JSON.stringify({
             name,
             email,
-            subject: data.get('subject') || 'Portfolio contact',
+            subject: data.get('subject') || t.defaultSubject,
             message,
             _template: 'table',
           }),
@@ -59,7 +61,7 @@ export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
       setStatus('sent')
     } catch {
       setStatus('error')
-      setError('Something went wrong. Email me directly instead.')
+      setError(t.networkError)
     }
   }
 
@@ -67,11 +69,8 @@ export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
     <section className="section contact">
       {!hideIntro && (
         <div className="section-head">
-          <h2>Let&apos;s talk</h2>
-          <p>
-            Open to full-stack, AI engineering, and research collaborations.
-            Based in {profile.location}.
-          </p>
+          <h2>{pageHero.contact.title}</h2>
+          <p>{ui.contactDescription(profile.location)}</p>
         </div>
       )}
 
@@ -87,46 +86,46 @@ export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
           />
           <div className="field-row">
             <label className="field">
-              <span>Name</span>
+              <span>{t.name}</span>
               <input
                 name="name"
                 type="text"
                 autoComplete="name"
                 required
-                placeholder="Your name"
+                placeholder={t.namePlaceholder}
                 disabled={status === 'sending'}
               />
             </label>
             <label className="field">
-              <span>Email</span>
+              <span>{t.email}</span>
               <input
                 name="email"
                 type="email"
                 autoComplete="email"
                 required
-                placeholder="you@example.com"
+                placeholder={t.emailPlaceholder}
                 disabled={status === 'sending'}
               />
             </label>
           </div>
 
           <label className="field">
-            <span>Subject</span>
+            <span>{t.subject}</span>
             <input
               name="subject"
               type="text"
-              placeholder="What is this about?"
+              placeholder={t.subjectPlaceholder}
               disabled={status === 'sending'}
             />
           </label>
 
           <label className="field">
-            <span>Message</span>
+            <span>{t.message}</span>
             <textarea
               name="message"
               required
               rows={5}
-              placeholder="Tell me about the role, project, or collaboration."
+              placeholder={t.messagePlaceholder}
               disabled={status === 'sending'}
             />
           </label>
@@ -137,11 +136,11 @@ export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
               type="submit"
               disabled={status === 'sending'}
             >
-              {status === 'sending' ? 'Sending…' : 'Send message'}
+              {status === 'sending' ? t.sending : t.send}
             </button>
             {status === 'sent' && (
               <p className="form-status ok" role="status">
-                Message sent — I&apos;ll get back to you soon.
+                {t.sent}
               </p>
             )}
             {status === 'error' && (
@@ -152,14 +151,11 @@ export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
             )}
           </div>
 
-          <p className="contact-form__note">
-            Sent via formsubmit.co — your name, email, and message are emailed to
-            me and not stored on this site.
-          </p>
+          <p className="contact-form__note">{t.note}</p>
         </form>
 
         <aside className="contact-aside">
-          <p className="aside-label">Or reach me directly</p>
+          <p className="aside-label">{t.reachDirectly}</p>
           <a className="aside-link" href={`mailto:${profile.email}`}>
             {profile.email}
           </a>

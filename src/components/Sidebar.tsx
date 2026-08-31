@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { profile, nav } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { ThemeToggle } from './ThemeToggle'
+import { LangToggle } from './LangToggle'
 import { Icon } from './Icon'
 
 export function Sidebar() {
+  const { profile, nav, ui } = useContent()
   const [open, setOpen] = useState(false)
 
   // Close on Escape when the mobile menu is open.
@@ -36,12 +38,12 @@ export function Sidebar() {
           onClick={() => setOpen((value) => !value)}
         >
           <span aria-hidden="true">{open ? '✕' : '☰'}</span>
-          <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
+          <span className="sr-only">{open ? ui.closeMenu : ui.openMenu}</span>
         </button>
       </div>
 
       <div className="sidebar__panel" id="sidebar-panel">
-        <nav className="sidebar__nav" aria-label="Primary">
+        <nav className="sidebar__nav" aria-label={ui.primaryNav}>
           {nav.map((item) => (
             <NavLink
               key={item.href}
@@ -57,7 +59,7 @@ export function Sidebar() {
         <div className="sidebar__footer">
           <p className="sidebar__status">
             <span className="dot" aria-hidden="true" />
-            Open to conversations
+            {ui.openToConversations}
           </p>
           <div className="sidebar__socials">
             <a href={`mailto:${profile.email}`} aria-label="Email" title="Email">
@@ -82,7 +84,10 @@ export function Sidebar() {
               <Icon name="network" />
             </a>
           </div>
-          <ThemeToggle />
+          <div className="sidebar__prefs">
+            <LangToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </aside>

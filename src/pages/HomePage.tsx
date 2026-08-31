@@ -5,10 +5,13 @@ import { ProjectCard } from '../components/ProjectCard'
 import { Reveal } from '../components/Reveal'
 import { Icon } from '../components/Icon'
 import { featuredProjects } from '../data/content'
+import { useContent } from '../i18n/useContent'
 
 export function HomePage() {
-  const topPicks = featuredProjects.slice(0, 3)
-  const moreFeatured = featuredProjects.slice(3, 6)
+  const { projects, ui, home } = useContent()
+  const featured = featuredProjects(projects)
+  const topPicks = featured.slice(0, 3)
+  const moreFeatured = featured.slice(3, 6)
 
   return (
     <>
@@ -24,17 +27,13 @@ export function HomePage() {
             <div>
               <div className="section-kicker">
                 <Icon name="work" />
-                <span>Top picks</span>
+                <span>{home.topPicks.kicker}</span>
               </div>
-              <h2>The three that show the range</h2>
-              <p>
-                A production AI portal, an airline voucher platform, and the
-                Azure middleware that keeps a travel app running — full-stack
-                delivery at enterprise scale.
-              </p>
+              <h2>{home.topPicks.title}</h2>
+              <p>{home.topPicks.description}</p>
             </div>
             <Link className="btn btn-ghost" to="/projects">
-              View all projects
+              {ui.viewAllProjects}
             </Link>
           </div>
         </Reveal>
@@ -55,14 +54,10 @@ export function HomePage() {
           <div className="section-head">
             <div className="section-kicker">
               <Icon name="ai" />
-              <span>Also featured</span>
+              <span>{home.alsoFeatured.kicker}</span>
             </div>
-            <h2>Retrieval, search, and the research platform</h2>
-            <p>
-              The systems that turned AI prototypes into measurable production
-              services — plus Factory6G, where the same reliability question is
-              studied on the research side.
-            </p>
+            <h2>{home.alsoFeatured.title}</h2>
+            <p>{home.alsoFeatured.description}</p>
           </div>
         </Reveal>
         <ul className="project-grid">

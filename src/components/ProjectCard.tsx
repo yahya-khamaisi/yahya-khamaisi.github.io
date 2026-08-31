@@ -1,15 +1,8 @@
 import { Link } from 'react-router-dom'
 import type { Project } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { MockUi } from './MockUi'
 import { Reveal } from './Reveal'
-
-const categoryLabels: Record<Project['category'], string> = {
-  industry: 'Industry AI',
-  research: 'Research',
-  github: 'GitHub',
-  personal: 'Personal',
-  earlier: 'Earlier work',
-}
 
 export function ProjectCard({
   project,
@@ -21,6 +14,7 @@ export function ProjectCard({
   /** 'lg' gives a top-pick project extra visual weight without changing the card design */
   size?: 'md' | 'lg'
 }) {
+  const { categoryLabels, ui } = useContent()
   return (
     <Reveal
       as="li"
@@ -30,12 +24,12 @@ export function ProjectCard({
       <Link
         className="project-card__link"
         to={`/projects/${project.slug}`}
-        aria-label={`${project.title} — project details`}
+        aria-label={ui.projectDetailsAria(project.title)}
       >
         <div className="project-card__visual" aria-hidden="true">
           <MockUi kind={project.mock} />
           {project.tier === 'featured' && (
-            <span className="project-card__badge">Featured</span>
+            <span className="project-card__badge">{ui.featured}</span>
           )}
         </div>
         <div className="project-card__body">

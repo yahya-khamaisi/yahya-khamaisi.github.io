@@ -2,18 +2,19 @@ import { Link } from 'react-router-dom'
 import { Research } from '../components/Research'
 import { PageHero } from '../components/PageHero'
 import { Reveal } from '../components/Reveal'
-import { projects } from '../data/content'
+import { useContent } from '../i18n/useContent'
 
 export function ResearchPage() {
+  const { projects, pageHero, ui } = useContent()
   const factory = projects.find((p) => p.slug === 'factory6g')
 
   return (
     <div className="page-stack">
       <PageHero
-        kicker="Research"
+        kicker={pageHero.research.kicker}
         kickerIcon="research"
-        title="Research & publications"
-        description="The secondary track: a part-time PhD in applied AI for reliable networked systems. It runs alongside the engineering work and feeds judgment back into it."
+        title={pageHero.research.title}
+        description={pageHero.research.description}
       />
 
       {factory && (
@@ -30,7 +31,7 @@ export function ResearchPage() {
               </ul>
               <div className="cta-row">
                 <Link className="btn btn-primary" to={`/projects/${factory.slug}`}>
-                  Project page
+                  {ui.projectPage}
                 </Link>
                 {factory.href && (
                   <a

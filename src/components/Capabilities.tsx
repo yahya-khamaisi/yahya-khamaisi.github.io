@@ -1,28 +1,27 @@
 import { useState } from 'react'
-import {
-  careerDomains,
-  careerFlows,
-  careerIdleStory,
-  careerProof,
-  type DomainId,
-} from '../data/systems'
+import type { DomainId } from '../data/systems'
+import { useContent } from '../i18n/useContent'
 import { Icon } from './Icon'
 import { CapabilityScene } from './CapabilityScene'
 import { Reveal } from './Reveal'
 
-function isNeighbor(focus: DomainId, id: DomainId) {
-  if (focus === id) return true
-  return careerFlows.some(
-    (f) =>
-      (f.from === focus && f.to === id) || (f.to === focus && f.from === id),
-  )
-}
-
 export function Capabilities() {
+  const { systems, home } = useContent()
+  const { domains: careerDomains, flows: careerFlows, proof: careerProof } =
+    systems
+  const cap = home.capabilities
   const [hoverId, setHoverId] = useState<DomainId | null>(null)
   const [pinnedId, setPinnedId] = useState<DomainId | null>(null)
   const focusId = hoverId ?? pinnedId
   const active = careerDomains.find((d) => d.id === focusId) ?? null
+
+  function isNeighbor(focus: DomainId, id: DomainId) {
+    if (focus === id) return true
+    return careerFlows.some(
+      (f) =>
+        (f.from === focus && f.to === id) || (f.to === focus && f.from === id),
+    )
+  }
 
   function selectDomain(id: DomainId | null) {
     setPinnedId(id)
@@ -35,13 +34,10 @@ export function Capabilities() {
         <div className="section-head">
           <div className="section-kicker">
             <Icon name="spark" />
-            <span>How it fits together</span>
+            <span>{cap.kicker}</span>
           </div>
-          <h2>Full-stack AI engineering, end to end</h2>
-          <p>
-            Applied AI at the centre, with the cloud, data, product, and agent
-            layers that get it in front of real users — measurable at every step.
-          </p>
+          <h2>{cap.title}</h2>
+          <p>{cap.description}</p>
         </div>
       </Reveal>
 
@@ -49,11 +45,8 @@ export function Capabilities() {
         <article className="build-career">
           <header className="build-career__head">
             <div>
-              <h3>One system, five layers</h3>
-              <p>
-                Applied AI, agents, cloud, full stack, and data sit on one map.
-                Hover any node to trace how the pieces connect.
-              </p>
+              <h3>{cap.cardTitle}</h3>
+              <p>{cap.cardText}</p>
             </div>
             <ul className="build-career__proof">
               {careerProof.map((item) => (
@@ -69,13 +62,13 @@ export function Capabilities() {
               focusId={focusId}
               onFocusChange={selectDomain}
               variant="industry"
-              ariaLabel="Interactive map of the full-stack AI engineering system: applied AI, agents, cloud, full stack, and data"
+              ariaLabel={cap.sceneAria}
             />
             <p className="capability-story" aria-live="polite">
               <span className="capability-story__label">
-                {active ? active.label : 'Career flow'}
+                {active ? active.label : cap.careerFlowLabel}
               </span>
-              {active ? active.story : careerIdleStory}
+              {active ? active.story : systems.idleStory}
             </p>
           </div>
 

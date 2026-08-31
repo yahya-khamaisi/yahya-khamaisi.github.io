@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { profile, highlights, heroStack } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { Icon } from './Icon'
 import { Magnetic } from './Magnetic'
 
@@ -8,12 +8,13 @@ type HeroProps = {
 }
 
 export function Hero({ compact = false }: HeroProps) {
+  const { profile, highlights, heroStack, ui } = useContent()
   return (
     <section className={`hero${compact ? ' hero--compact' : ''}`}>
       <div className="hero-copy">
         <p className="hero-eyebrow">
           <span className="dot" aria-hidden="true" />
-          Senior AI Engineer · {profile.location} · open to conversations
+          {ui.heroEyebrow(profile.location)}
         </p>
         <h1 className="brand">{profile.name}</h1>
         <p className="hero-tagline">{profile.headline}</p>
@@ -21,7 +22,7 @@ export function Hero({ compact = false }: HeroProps) {
         <div className="cta-row">
           <Magnetic strength={12}>
             <Link className="btn btn-primary" to="/projects">
-              See projects
+              {ui.seeProjects}
             </Link>
           </Magnetic>
           <Magnetic strength={12}>
@@ -31,12 +32,12 @@ export function Hero({ compact = false }: HeroProps) {
               target="_blank"
               rel="noreferrer"
             >
-              Download CV
+              {ui.downloadCv}
             </a>
           </Magnetic>
           <Magnetic strength={12}>
             <Link className="btn btn-ghost" to="/contact">
-              Contact
+              {ui.contact}
             </Link>
           </Magnetic>
         </div>

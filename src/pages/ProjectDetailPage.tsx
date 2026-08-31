@@ -1,51 +1,40 @@
 import { Link, useParams } from 'react-router-dom'
-import {
-  getAdjacentProjects,
-  getProjectBySlug,
-  type Project,
-} from '../data/content'
+import { getAdjacentProjects, getProjectBySlug } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { MockUi } from '../components/MockUi'
 import { ProjectDiagram } from '../components/ProjectDiagram'
-import { diagramSlugs } from '../data/diagrams'
 import { Reveal } from '../components/Reveal'
-
-const categoryLabels: Record<Project['category'], string> = {
-  industry: 'Industry AI',
-  research: 'Research',
-  github: 'GitHub',
-  personal: 'Personal',
-  earlier: 'Earlier work',
-}
-
-function externalLinkLabel(href: string) {
-  if (href.includes('github.com')) return 'View on GitHub'
-  return 'Visit live site'
-}
 
 export function ProjectDetailPage() {
   const { slug = '' } = useParams()
-  const project = getProjectBySlug(slug)
-  const { prev, next } = getAdjacentProjects(slug)
+  const { projects, categoryLabels, diagrams, ui } = useContent()
+  const project = getProjectBySlug(projects, slug)
+  const { prev, next } = getAdjacentProjects(projects, slug)
 
   if (!project) {
     return (
       <div className="page-stack">
         <header className="page-hero">
-          <h1>Project not found</h1>
-          <p>That slug does not match a project in the portfolio.</p>
+          <h1>{ui.projectNotFound}</h1>
+          <p>{ui.projectNotFoundBody}</p>
         </header>
         <Link className="btn btn-primary" to="/projects">
-          Back to projects
+          {ui.backToProjects}
         </Link>
       </div>
     )
   }
 
+  const externalLabel =
+    project.href && project.href.includes('github.com')
+      ? ui.viewOnGithub
+      : ui.visitLiveSite
+
   return (
     <div className="page-stack">
       <Reveal>
-        <nav className="crumb" aria-label="Breadcrumb">
-          <Link to="/projects">Projects</Link>
+        <nav className="crumb" aria-label={ui.breadcrumb}>
+          <Link to="/projects">{ui.projectsCrumb}</Link>
           <span aria-hidden="true">/</span>
           <span>{project.title}</span>
         </nav>
@@ -73,11 +62,11 @@ export function ProjectDetailPage() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {externalLinkLabel(project.href)}
+                  {externalLabel}
                 </a>
               )}
               <Link className="btn btn-ghost" to="/contact">
-                Discuss this work
+                {ui.discussThisWork}
               </Link>
             </div>
           </header>
@@ -87,19 +76,19 @@ export function ProjectDetailPage() {
           <Reveal delay={80}>
             <div className="project-detail__body">
               <section>
-                <h2>Overview</h2>
+                <h2>{ui.overview}</h2>
                 <p className="project-detail__overview">{project.overview}</p>
               </section>
 
-              {diagramSlugs.has(project.slug) && (
+              {project.slug in diagrams && (
                 <section className="project-detail__arch">
-                  <h2>Architecture</h2>
+                  <h2>{ui.architecture}</h2>
                   <ProjectDiagram slug={project.slug} />
                 </section>
               )}
 
               <section>
-                <h2>What shipped</h2>
+                <h2>{ui.whatShipped}</h2>
                 <ul className="detail-list">
                   {project.details.map((line) => (
                     <li key={line}>{line}</li>
@@ -108,7 +97,7 @@ export function ProjectDetailPage() {
               </section>
 
               <section>
-                <h2>Impact</h2>
+                <h2>{ui.impact}</h2>
                 <ul className="impact-list">
                   {project.impact.map((line) => (
                     <li key={line}>{line}</li>
@@ -125,25 +114,25 @@ export function ProjectDetailPage() {
               </div>
 
               <div className="rail-card">
-                <h3>At a glance</h3>
+                <h3>{ui.atAGlance}</h3>
                 <dl className="rail-facts">
                   <div>
-                    <dt>Role</dt>
+                    <dt>{ui.role}</dt>
                     <dd>{project.role}</dd>
                   </div>
                   <div>
-                    <dt>Timeline</dt>
+                    <dt>{ui.timeline}</dt>
                     <dd>{project.period}</dd>
                   </div>
                   <div>
-                    <dt>Track</dt>
+                    <dt>{ui.track}</dt>
                     <dd>{categoryLabels[project.category]}</dd>
                   </div>
                 </dl>
               </div>
 
               <div className="rail-card">
-                <h3>Stack</h3>
+                <h3>{ui.stack}</h3>
                 <ul className="stack stack-row">
                   {project.stack.map((item) => (
                     <li key={item}>{item}</li>
@@ -155,10 +144,10 @@ export function ProjectDetailPage() {
         </div>
       </article>
 
-      <nav className="project-pager" aria-label="Adjacent projects">
+      <nav className="project-pager" aria-label={ui.adjacentProjects}>
         {prev ? (
           <Link className="pager-link" to={`/projects/${prev.slug}`}>
-            <span>Previous</span>
+            <span>{ui.previous}</span>
             <strong>{prev.title}</strong>
           </Link>
         ) : (
@@ -166,7 +155,7 @@ export function ProjectDetailPage() {
         )}
         {next ? (
           <Link className="pager-link pager-link--next" to={`/projects/${next.slug}`}>
-            <span>Next</span>
+            <span>{ui.next}</span>
             <strong>{next.title}</strong>
           </Link>
         ) : (

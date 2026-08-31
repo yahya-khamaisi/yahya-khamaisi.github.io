@@ -1,17 +1,18 @@
 import { Link } from 'react-router-dom'
-import { education } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { PageHero } from '../components/PageHero'
 import { Reveal } from '../components/Reveal'
 import { Icon } from '../components/Icon'
 
 export function EducationPage() {
+  const { education, pageHero, ui } = useContent()
   return (
     <div className="page-stack">
       <PageHero
-        kicker="Background"
+        kicker={pageHero.education.kicker}
         kickerIcon="education"
-        title="Education"
-        description="Three degrees, one thread — computer engineering fundamentals, an MSc toward systems and AI, and a part-time PhD in applied AI running alongside full-time engineering."
+        title={pageHero.education.title}
+        description={pageHero.education.description}
       />
 
       <ol className="edu-timeline">
@@ -34,7 +35,9 @@ export function EducationPage() {
                   <span
                     className={`edu-status edu-status--${item.status}`}
                   >
-                    {item.status === 'in-progress' ? 'In progress' : 'Completed'}
+                    {item.status === 'in-progress'
+                      ? ui.inProgress
+                      : ui.completed}
                   </span>
                 </div>
                 <h2 className="edu-entry__degree">{item.degree}</h2>
@@ -44,7 +47,11 @@ export function EducationPage() {
 
               {(item.gpa || item.honors) && (
                 <div className="edu-entry__badges">
-                  {item.gpa && <span className="edu-badge">GPA {item.gpa}</span>}
+                  {item.gpa && (
+                    <span className="edu-badge">
+                      {ui.gpa} {item.gpa}
+                    </span>
+                  )}
                   {item.honors?.map((h) => (
                     <span key={h} className="edu-badge edu-badge--honor">
                       {h}
@@ -65,7 +72,7 @@ export function EducationPage() {
                     className="btn btn-ghost"
                     to={`/projects/${item.relatedProjectSlug}`}
                   >
-                    See related project
+                    {ui.seeRelatedProject}
                   </Link>
                 </div>
               )}

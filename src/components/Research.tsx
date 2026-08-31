@@ -1,34 +1,18 @@
-import { publications } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { Icon } from './Icon'
 
 export function Research({ hideIntro = false }: { hideIntro?: boolean }) {
+  const { publications, ui } = useContent()
   return (
     <section className="section research-section">
-      {!hideIntro ? (
-        <div className="section-head">
-          <div className="section-kicker">
-            <Icon name="paper" />
-            <span>Publications</span>
-          </div>
-          <h2>Research & writing</h2>
-          <p>
-            Publications spanning computer vision, 6G URLLC for Industry 5.0,
-            VoIP security, and AI ethics.
-          </p>
+      <div className="section-head">
+        <div className="section-kicker">
+          <Icon name="paper" />
+          <span>{hideIntro ? ui.publicationsKicker : ui.researchWritingKicker}</span>
         </div>
-      ) : (
-        <div className="section-head">
-          <div className="section-kicker">
-            <Icon name="paper" />
-            <span>Writing</span>
-          </div>
-          <h2>Publications</h2>
-          <p>
-            Papers spanning computer vision, 6G URLLC for Industry 5.0, VoIP
-            security, and AI ethics.
-          </p>
-        </div>
-      )}
+        <h2>{hideIntro ? ui.publicationsTitle : ui.researchWritingTitle}</h2>
+        <p>{hideIntro ? ui.publicationsDesc : ui.researchWritingDesc}</p>
+      </div>
       <ul className="pub-list">
         {publications.map((pub) => (
           <li key={pub.title}>

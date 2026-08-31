@@ -2,7 +2,7 @@
 
 Personal site: selected projects, skills, experience, and research.
 
-**Live:** https://dr-yahya.github.io
+**Live:** https://yahya-khamaisi.github.io
 
 ## Stack
 

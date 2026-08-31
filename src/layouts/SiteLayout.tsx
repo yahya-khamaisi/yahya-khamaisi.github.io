@@ -5,6 +5,7 @@ import { Footer } from '../components/Footer'
 import { PhysicsField } from '../components/PhysicsField'
 import { ThemeProvider } from '../theme/ThemeProvider'
 import { useDocumentMeta } from '../hooks/useDocumentMeta'
+import { useUi } from '../i18n/useContent'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -16,12 +17,13 @@ function ScrollToTop() {
 
 function Chrome() {
   useDocumentMeta()
+  const ui = useUi()
 
   return (
     <>
       <ScrollToTop />
       <a className="skip-link" href="#main">
-        Skip to content
+        {ui.skipToContent}
       </a>
       <PhysicsField />
       <div className="shell">

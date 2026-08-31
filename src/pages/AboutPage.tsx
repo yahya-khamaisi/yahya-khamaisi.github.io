@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { aboutEssay, profile, aboutStats } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { Reveal } from '../components/Reveal'
 import { Magnetic } from '../components/Magnetic'
 import { Icon } from '../components/Icon'
 
 export function AboutPage() {
+  const { aboutEssay, profile, aboutStats, ui } = useContent()
   return (
     <div className="about">
       <Reveal>
@@ -54,7 +55,7 @@ export function AboutPage() {
 
             <div className="cta-row">
               <Link className="btn btn-primary" to="/contact">
-                Contact me
+                {ui.contactMe}
               </Link>
               <a
                 className="btn btn-ghost"
@@ -62,7 +63,7 @@ export function AboutPage() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Download CV
+                {ui.downloadCv}
               </a>
             </div>
           </div>

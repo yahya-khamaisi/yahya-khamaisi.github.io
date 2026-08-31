@@ -1,11 +1,74 @@
-export const profile = {
+import {
+  careerDomains,
+  careerFlows,
+  careerProof,
+  careerIdleStory,
+} from './systems'
+import { projectDiagrams } from './diagrams'
+import type { Diagram } from './diagrams'
+
+export type Profile = {
+  name: string
+  role: string
+  focus: string
+  location: string
+  email: string
+  github: string
+  linkedin: string
+  photo: string
+  photoAlt: string
+  cvUrl: string
+  summary: string
+  headline: string
+}
+
+export type StatItem = { label: string; detail: string; icon: IconName }
+export type NavItem = { label: string; href: string }
+export type PageMetaEntry = { title: string; description: string }
+
+export type AboutEssay = {
+  kicker: string
+  title: string
+  lede: string
+  sections: { id: string; title: string; paragraphs: string[] }[]
+}
+
+export type ResearchToolkit = {
+  title: string
+  description: string
+  items: string[]
+}
+
+export type SectionCopy = { kicker: string; title: string; description: string }
+
+export type HomeCopy = {
+  topPicks: SectionCopy
+  alsoFeatured: SectionCopy
+  capabilities: SectionCopy & {
+    cardTitle: string
+    cardText: string
+    careerFlowLabel: string
+    sceneAria: string
+  }
+}
+
+export type PageHeroCopy = { kicker: string; title: string; description: string }
+export type PageHeroKey =
+  | 'projects'
+  | 'experience'
+  | 'education'
+  | 'skills'
+  | 'research'
+  | 'contact'
+
+export const profile: Profile = {
   name: 'Yahya Khamayseh',
   role: 'Full-Stack AI Engineer',
   focus: 'Full Stack · AI · Cloud',
   location: 'Dubai, UAE',
   email: 'yahya.s.m.khamayseh@gmail.com',
-  github: 'https://github.com/dr-yahya',
-  linkedin: 'https://www.linkedin.com/in/yahya-khamayseh-01a4aa1a9/',
+  github: 'https://github.com/yahya-khamaisi',
+  linkedin: 'https://www.linkedin.com/in/yahya-khamaisi/',
   photo: '/yahya.jpg',
   photoAlt: 'Portrait of Yahya Khamayseh',
   /** drop the PDF at public/Yahya-Khamayseh-CV.pdf */
@@ -16,7 +79,7 @@ export const profile = {
 }
 
 /** Per-route metadata for document title + description. */
-export const pageMeta: Record<string, { title: string; description: string }> = {
+export const pageMeta: Record<string, PageMetaEntry> = {
   '/': {
     title: 'Yahya Khamayseh — Full-stack AI engineer',
     description:
@@ -59,15 +122,15 @@ export const pageMeta: Record<string, { title: string; description: string }> = 
   },
 }
 
-export const highlights = [
-  { label: '6+ years', detail: 'production delivery for enterprise clients', icon: 'years' as const },
-  { label: 'AI in production', detail: 'agents, RAG, and evaluation loops', icon: 'ai' as const },
-  { label: 'Full stack + cloud', detail: 'APIs, portals, and Azure delivery', icon: 'spark' as const },
-  { label: 'PhD-backed', detail: 'doctoral research in applied AI', icon: 'research' as const },
+export const highlights: StatItem[] = [
+  { label: '6+ years', detail: 'production delivery for enterprise clients', icon: 'years' },
+  { label: 'AI in production', detail: 'agents, RAG, and evaluation loops', icon: 'ai' },
+  { label: 'Full stack + cloud', detail: 'APIs, portals, and Azure delivery', icon: 'spark' },
+  { label: 'PhD-backed', detail: 'doctoral research in applied AI', icon: 'research' },
 ]
 
 /** Toolbelt shown as a mono ticker under the hero copy. */
-export const heroStack = [
+export const heroStack: string[] = [
   'Python',
   'FastAPI',
   'Node.js',
@@ -85,14 +148,14 @@ export const heroStack = [
 ]
 
 /** Distinct from `highlights` — used only on the About page so the two pages don't echo each other. */
-export const aboutStats = [
-  { label: '6 years', detail: 'production delivery across three countries', icon: 'years' as const },
-  { label: 'AI-first', detail: 'agents, RAG, and evaluation in real products', icon: 'ai' as const },
-  { label: 'PhD-backed', detail: 'doctoral research in applied AI, in progress', icon: 'research' as const },
-  { label: '1st in department', detail: 'top of the cohort, BSc and MSc', icon: 'education' as const },
+export const aboutStats: StatItem[] = [
+  { label: '6 years', detail: 'production delivery across three countries', icon: 'years' },
+  { label: 'AI-first', detail: 'agents, RAG, and evaluation in real products', icon: 'ai' },
+  { label: 'PhD-backed', detail: 'doctoral research in applied AI, in progress', icon: 'research' },
+  { label: '1st in department', detail: 'top of the cohort, BSc and MSc', icon: 'education' },
 ]
 
-export const nav = [
+export const nav: NavItem[] = [
   { label: 'About', href: '/about' },
   { label: 'Projects', href: '/projects' },
   { label: 'Experience', href: '/experience' },
@@ -338,7 +401,7 @@ export const projects: Project[] = [
       'Findings feed directly into the URLLC for Industry 5.0 taxonomy paper.',
     ],
     stack: ['Python', 'TensorFlow', 'Sionna', 'Docker'],
-    href: 'https://github.com/dr-yahya/Factory6G',
+    href: 'https://github.com/yahya-khamaisi/Factory6G',
     mock: 'factory6g',
     tier: 'featured',
     category: 'research',
@@ -441,7 +504,7 @@ export const projects: Project[] = [
       'A working detection pipeline published as a reproducible public repository.',
     ],
     stack: ['Python', 'YOLOv8', 'CV', 'Detection'],
-    href: 'https://github.com/dr-yahya/Vehicles-plate-detection-app',
+    href: 'https://github.com/yahya-khamaisi/Vehicles-plate-detection-app',
     mock: 'plate',
     tier: 'more',
     category: 'github',
@@ -683,7 +746,7 @@ export const projects: Project[] = [
     ],
     impact: ['A reusable scheduling architecture published for other developers.'],
     stack: ['Full stack', 'Multi-tenant', 'APIs'],
-    href: 'https://github.com/dr-yahya/Multi-Tenant-Appointment-Booking-System',
+    href: 'https://github.com/yahya-khamaisi/Multi-Tenant-Appointment-Booking-System',
     mock: 'booking',
     tier: 'more',
     category: 'github',
@@ -701,7 +764,7 @@ export const projects: Project[] = [
     details: ['Public backend codebase for product/API experimentation.'],
     impact: ['A working backend reference published on GitHub.'],
     stack: ['Backend', 'APIs'],
-    href: 'https://github.com/dr-yahya/arrivo-backend',
+    href: 'https://github.com/yahya-khamaisi/arrivo-backend',
     mock: 'api',
     tier: 'more',
     category: 'github',
@@ -719,7 +782,7 @@ export const projects: Project[] = [
     details: ['Infrastructure and platform experimentation, published publicly.'],
     impact: ['Documented exploration of IaaS provisioning concepts.'],
     stack: ['Cloud', 'IaaS'],
-    href: 'https://github.com/dr-yahya/IAAS',
+    href: 'https://github.com/yahya-khamaisi/IAAS',
     mock: 'middleware',
     tier: 'more',
     category: 'github',
@@ -737,7 +800,7 @@ export const projects: Project[] = [
     details: ['Public marketing front end for a freelancer team.'],
     impact: ['A shared portfolio published for a freelancer collective.'],
     stack: ['HTML', 'CSS', 'Portfolio'],
-    href: 'https://github.com/dr-yahya/freelancer-team-portifolio',
+    href: 'https://github.com/yahya-khamaisi/freelancer-team-portifolio',
     mock: 'portfolio',
     tier: 'more',
     category: 'github',
@@ -755,7 +818,7 @@ export const projects: Project[] = [
     details: ['Public GitHub project from earlier product/learning work.'],
     impact: ['Early hands-on exploration of matching and profile UX.'],
     stack: ['Mobile/Web', 'Product'],
-    href: 'https://github.com/dr-yahya/Dating-APP',
+    href: 'https://github.com/yahya-khamaisi/Dating-APP',
     mock: 'dating',
     tier: 'more',
     category: 'github',
@@ -773,14 +836,20 @@ export const projects: Project[] = [
     details: ['API-driven UI built end-to-end as a learning project.'],
     impact: ['A complete, working API integration shipped from scratch.'],
     stack: ['API', 'UI'],
-    href: 'https://github.com/dr-yahya/WeatherApp',
+    href: 'https://github.com/yahya-khamaisi/WeatherApp',
     mock: 'weather',
     tier: 'more',
     category: 'github',
   },
 ]
 
-export const featuredProjects = projects.filter((p) => p.tier === 'featured')
+export const categoryLabels: Record<ProjectCategory, string> = {
+  industry: 'Industry AI',
+  research: 'Research',
+  github: 'GitHub',
+  personal: 'Personal',
+  earlier: 'Earlier work',
+}
 
 export const projectCategories: { id: ProjectCategory | 'all'; label: string }[] = [
   { id: 'all', label: 'All' },
@@ -791,20 +860,24 @@ export const projectCategories: { id: ProjectCategory | 'all'; label: string }[]
   { id: 'earlier', label: 'Earlier work' },
 ]
 
-export function getProjectBySlug(slug: string) {
-  return projects.find((p) => p.slug === slug)
+export function featuredProjects(list: Project[]) {
+  return list.filter((p) => p.tier === 'featured')
 }
 
-export function getAdjacentProjects(slug: string) {
-  const index = projects.findIndex((p) => p.slug === slug)
+export function getProjectBySlug(list: Project[], slug: string) {
+  return list.find((p) => p.slug === slug)
+}
+
+export function getAdjacentProjects(list: Project[], slug: string) {
+  const index = list.findIndex((p) => p.slug === slug)
   if (index < 0) return { prev: null, next: null }
   return {
-    prev: index > 0 ? projects[index - 1] : null,
-    next: index < projects.length - 1 ? projects[index + 1] : null,
+    prev: index > 0 ? list[index - 1] : null,
+    next: index < list.length - 1 ? list[index + 1] : null,
   }
 }
 
-export const aboutEssay = {
+export const aboutEssay: AboutEssay = {
   kicker: 'About',
   title: 'How the work is done',
   lede:
@@ -916,7 +989,7 @@ export const skillGroups: SkillGroup[] = [
 ]
 
 /** Secondary — the research toolkit, shown small and clearly separate from the engineering stack. */
-export const researchToolkit = {
+export const researchToolkit: ResearchToolkit = {
   title: 'Research toolkit',
   description:
     'Used in the doctoral track, not day-to-day delivery. Full detail lives on the research page.',
@@ -1154,3 +1227,341 @@ export const publications: Publication[] = [
     note: 'A position paper on responsible AI development practices.',
   },
 ]
+
+/* ------------------------------------------------------------------ *
+ *  i18n bundle
+ *  content.ts is the English source of truth; content.ar.ts mirrors
+ *  this shape in Arabic. useContent() picks the active bundle.
+ * ------------------------------------------------------------------ */
+
+/** UI micro-copy that lives in components rather than data. */
+export type Ui = {
+  langName: string
+  langSwitchTo: string
+  featured: string
+  projectDetailsAria: (title: string) => string
+  skipToContent: string
+  openMenu: string
+  closeMenu: string
+  primaryNav: string
+  openToConversations: string
+  backToTop: string
+  builtWith: string
+  breadcrumb: string
+  projectsCrumb: string
+  adjacentProjects: string
+  previous: string
+  next: string
+  projectNotFound: string
+  projectNotFoundBody: string
+  backToProjects: string
+  seeProjects: string
+  downloadCv: string
+  contact: string
+  contactMe: string
+  viewAllProjects: string
+  discussThisWork: string
+  viewOnGithub: string
+  visitLiveSite: string
+  projectPage: string
+  seeRelatedProject: string
+  seeItInAProject: string
+  seeTheResearch: string
+  overview: string
+  architecture: string
+  whatShipped: string
+  impact: string
+  stack: string
+  atAGlance: string
+  role: string
+  timeline: string
+  track: string
+  heroEyebrow: (location: string) => string
+  filterProjects: string
+  searchProjects: string
+  searchPlaceholder: string
+  showingCount: (shown: number, total: number) => string
+  noMatch: (query: string, filtered: boolean) => string
+  projectsDescription: (total: number) => string
+  contactDescription: (location: string) => string
+  inProgress: string
+  completed: string
+  gpa: string
+  proficiency: (level: number) => string
+  skillsStats: {
+    domains: (n: number) => string
+    domainsDetail: string
+    tools: (n: number) => string
+    toolsDetail: string
+    expert: (n: number) => string
+    expertDetail: string
+    years: string
+    yearsDetail: string
+  }
+  skillsSecondary: string
+  researchWritingKicker: string
+  researchWritingTitle: string
+  researchWritingDesc: string
+  publicationsKicker: string
+  publicationsTitle: string
+  publicationsDesc: string
+  form: {
+    name: string
+    namePlaceholder: string
+    email: string
+    emailPlaceholder: string
+    subject: string
+    subjectPlaceholder: string
+    message: string
+    messagePlaceholder: string
+    send: string
+    sending: string
+    sent: string
+    validationError: string
+    networkError: string
+    note: string
+    reachDirectly: string
+    defaultSubject: string
+  }
+  themeUsingSystem: string
+  themeUsingLight: string
+  themeUsingDark: string
+  themeClickToChange: string
+  themeShort: { system: string; light: string; dark: string }
+}
+
+export type SystemsContent = {
+  domains: typeof careerDomains
+  flows: typeof careerFlows
+  proof: string[]
+  idleStory: string
+}
+
+/** The full localized content bundle. */
+export type Site = {
+  profile: Profile
+  pageMeta: Record<string, PageMetaEntry>
+  highlights: StatItem[]
+  heroStack: string[]
+  aboutStats: StatItem[]
+  nav: NavItem[]
+  projects: Project[]
+  categoryLabels: Record<ProjectCategory, string>
+  projectCategories: { id: ProjectCategory | 'all'; label: string }[]
+  aboutEssay: AboutEssay
+  home: HomeCopy
+  pageHero: Record<PageHeroKey, PageHeroCopy>
+  skillGroups: SkillGroup[]
+  researchToolkit: ResearchToolkit
+  experience: Experience[]
+  education: EducationEntry[]
+  publications: Publication[]
+  systems: SystemsContent
+  diagrams: Record<string, Diagram>
+  ui: Ui
+}
+
+export const enUi: Ui = {
+  langName: 'العربية',
+  langSwitchTo: 'التبديل إلى العربية',
+  featured: 'Featured',
+  projectDetailsAria: (title) => `${title} — project details`,
+  skipToContent: 'Skip to content',
+  openMenu: 'Open menu',
+  closeMenu: 'Close menu',
+  primaryNav: 'Primary',
+  openToConversations: 'Open to conversations',
+  backToTop: 'Back to top',
+  builtWith: 'Built with React, TypeScript & Vite',
+  breadcrumb: 'Breadcrumb',
+  projectsCrumb: 'Projects',
+  adjacentProjects: 'Adjacent projects',
+  previous: 'Previous',
+  next: 'Next',
+  projectNotFound: 'Project not found',
+  projectNotFoundBody: 'That slug does not match a project in the portfolio.',
+  backToProjects: 'Back to projects',
+  seeProjects: 'See projects',
+  downloadCv: 'Download CV',
+  contact: 'Contact',
+  contactMe: 'Contact me',
+  viewAllProjects: 'View all projects',
+  discussThisWork: 'Discuss this work',
+  viewOnGithub: 'View on GitHub',
+  visitLiveSite: 'Visit live site',
+  projectPage: 'Project page',
+  seeRelatedProject: 'See related project',
+  seeItInAProject: 'See it in a project',
+  seeTheResearch: 'See the research',
+  overview: 'Overview',
+  architecture: 'Architecture',
+  whatShipped: 'What shipped',
+  impact: 'Impact',
+  stack: 'Stack',
+  atAGlance: 'At a glance',
+  role: 'Role',
+  timeline: 'Timeline',
+  track: 'Track',
+  heroEyebrow: (location) =>
+    `Senior AI Engineer · ${location} · open to conversations`,
+  filterProjects: 'Filter projects',
+  searchProjects: 'Search projects',
+  searchPlaceholder: 'Search projects, clients, stack…',
+  showingCount: (shown, total) => `Showing ${shown} of ${total} projects`,
+  noMatch: (query, filtered) =>
+    `No projects match "${query}"${
+      filtered ? ' in this filter' : ''
+    }. Try a different search term or clear the filter.`,
+  projectsDescription: (total) =>
+    `${total} projects across enterprise AI, full-stack delivery, open source, and the research track — ordered by career weight. Filter by track or search by name, client, or stack.`,
+  contactDescription: (location) =>
+    `Open to full-stack, AI engineering, and research collaborations. Based in ${location}.`,
+  inProgress: 'In progress',
+  completed: 'Completed',
+  gpa: 'GPA',
+  proficiency: (level) => `Proficiency ${level} out of 5`,
+  skillsStats: {
+    domains: (n) => `${n} domains`,
+    domainsDetail: 'grouped by how they show up in production',
+    tools: (n) => `${n} tools & platforms`,
+    toolsDetail: 'across backend, AI, data, and full stack',
+    expert: (n) => `${n} at expert level`,
+    expertDetail: 'the tools reached for first',
+    years: '6+ years',
+    yearsDetail: 'all of it applied in production',
+  },
+  skillsSecondary: 'Secondary',
+  researchWritingKicker: 'Publications',
+  researchWritingTitle: 'Research & writing',
+  researchWritingDesc:
+    'Publications spanning computer vision, 6G URLLC for Industry 5.0, VoIP security, and AI ethics.',
+  publicationsKicker: 'Writing',
+  publicationsTitle: 'Publications',
+  publicationsDesc:
+    'Papers spanning computer vision, 6G URLLC for Industry 5.0, VoIP security, and AI ethics.',
+  form: {
+    name: 'Name',
+    namePlaceholder: 'Your name',
+    email: 'Email',
+    emailPlaceholder: 'you@example.com',
+    subject: 'Subject',
+    subjectPlaceholder: 'What is this about?',
+    message: 'Message',
+    messagePlaceholder: 'Tell me about the role, project, or collaboration.',
+    send: 'Send message',
+    sending: 'Sending…',
+    sent: "Message sent — I'll get back to you soon.",
+    validationError: 'Add your name, a valid email, and a message.',
+    networkError: 'Something went wrong. Email me directly instead.',
+    note: 'Sent via formsubmit.co — your name, email, and message are emailed to me and not stored on this site.',
+    reachDirectly: 'Or reach me directly',
+    defaultSubject: 'Portfolio contact',
+  },
+  themeUsingSystem: 'Using system theme',
+  themeUsingLight: 'Using light theme',
+  themeUsingDark: 'Using dark theme',
+  themeClickToChange: 'Click to change.',
+  themeShort: { system: 'system', light: 'light', dark: 'dark' },
+}
+
+export const enHome: HomeCopy = {
+  topPicks: {
+    kicker: 'Top picks',
+    title: 'The three that show the range',
+    description:
+      'A production AI portal, an airline voucher platform, and the Azure middleware that keeps a travel app running — full-stack delivery at enterprise scale.',
+  },
+  alsoFeatured: {
+    kicker: 'Also featured',
+    title: 'Retrieval, search, and the research platform',
+    description:
+      'The systems that turned AI prototypes into measurable production services — plus Factory6G, where the same reliability question is studied on the research side.',
+  },
+  capabilities: {
+    kicker: 'How it fits together',
+    title: 'Full-stack AI engineering, end to end',
+    description:
+      'Applied AI at the centre, with the cloud, data, product, and agent layers that get it in front of real users — measurable at every step.',
+    cardTitle: 'One system, five layers',
+    cardText:
+      'Applied AI, agents, cloud, full stack, and data sit on one map. Hover any node to trace how the pieces connect.',
+    careerFlowLabel: 'Career flow',
+    sceneAria:
+      'Interactive map of the full-stack AI engineering system: applied AI, agents, cloud, full stack, and data',
+  },
+}
+
+export const enPageHero: Record<PageHeroKey, PageHeroCopy> = {
+  projects: {
+    kicker: 'Portfolio',
+    title: 'Projects',
+    description: '', // computed per-render from ui.projectsDescription(total)
+  },
+  experience: {
+    kicker: 'Career',
+    title: 'Experience',
+    description:
+      'Five roles, most recent first — from a first backend job to owning an insurance AI portfolio. Education is listed separately.',
+  },
+  education: {
+    kicker: 'Background',
+    title: 'Education',
+    description:
+      'Three degrees, one thread — computer engineering fundamentals, an MSc toward systems and AI, and a part-time PhD in applied AI running alongside full-time engineering.',
+  },
+  skills: {
+    kicker: 'Capabilities',
+    title: 'Skills',
+    description:
+      'Full-stack engineering for AI products — backend, retrieval, data, and cloud. Levels are self-rated, and every domain is linked to a project where it was applied.',
+  },
+  research: {
+    kicker: 'Research',
+    title: 'Research & publications',
+    description:
+      'The secondary track: a part-time PhD in applied AI for reliable networked systems. It runs alongside the engineering work and feeds judgment back into it.',
+  },
+  contact: {
+    kicker: 'Contact',
+    title: "Let's talk",
+    description: '', // computed per-render from ui.contactDescription(location)
+  },
+}
+
+const EN_DIAGRAM_FOOTNOTE =
+  'Representative architecture — illustrative, not production data or an exact copy of internal tooling.'
+
+const enDiagrams: Record<string, Diagram> = Object.fromEntries(
+  Object.entries(projectDiagrams).map(([slug, d]) => [
+    slug,
+    { ...d, footnote: d.footnote ?? EN_DIAGRAM_FOOTNOTE },
+  ]),
+)
+
+export const en: Site = {
+  profile,
+  pageMeta,
+  highlights,
+  heroStack,
+  aboutStats,
+  nav,
+  projects,
+  categoryLabels,
+  projectCategories,
+  aboutEssay,
+  home: enHome,
+  pageHero: enPageHero,
+  skillGroups,
+  researchToolkit,
+  experience,
+  education,
+  publications,
+  systems: {
+    domains: careerDomains,
+    flows: careerFlows,
+    proof: careerProof,
+    idleStory: careerIdleStory,
+  },
+  diagrams: enDiagrams,
+  ui: enUi,
+}

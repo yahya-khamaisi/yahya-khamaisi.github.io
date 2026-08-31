@@ -1,9 +1,10 @@
-import { experience } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { Icon } from './Icon'
 import { MockUi } from './MockUi'
 import { Reveal } from './Reveal'
 
 export function Experience({ hideIntro = false }: { hideIntro?: boolean }) {
+  const { experience, pageHero } = useContent()
   return (
     <section className="section experience-section">
       {!hideIntro && (
@@ -11,13 +12,10 @@ export function Experience({ hideIntro = false }: { hideIntro?: boolean }) {
           <div className="section-head">
             <div className="section-kicker">
               <Icon name="experience" />
-              <span>Career</span>
+              <span>{pageHero.experience.kicker}</span>
             </div>
-            <h2>Experience</h2>
-            <p>
-              Five roles, most recent first — currently owning the AI portfolio
-              at Takaful Emarat.
-            </p>
+            <h2>{pageHero.experience.title}</h2>
+            <p>{pageHero.experience.description}</p>
           </div>
         </Reveal>
       )}

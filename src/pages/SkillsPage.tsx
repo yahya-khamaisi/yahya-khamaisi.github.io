@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom'
 import { Skills } from '../components/Skills'
 import { PageHero } from '../components/PageHero'
 import { Icon } from '../components/Icon'
-import { skillGroups, researchToolkit } from '../data/content'
+import { useContent } from '../i18n/useContent'
 
 export function SkillsPage() {
+  const { skillGroups, researchToolkit, pageHero, ui } = useContent()
   const domainCount = skillGroups.length
   const toolCount = skillGroups.reduce((sum, g) => sum + g.items.length, 0)
   const expertCount = skillGroups.reduce(
@@ -15,33 +16,33 @@ export function SkillsPage() {
   const stats = [
     {
       icon: 'skills' as const,
-      label: `${domainCount} domains`,
-      detail: 'grouped by how they show up in production',
+      label: ui.skillsStats.domains(domainCount),
+      detail: ui.skillsStats.domainsDetail,
     },
     {
       icon: 'chip' as const,
-      label: `${toolCount} tools & platforms`,
-      detail: 'across backend, AI, data, and full stack',
+      label: ui.skillsStats.tools(toolCount),
+      detail: ui.skillsStats.toolsDetail,
     },
     {
       icon: 'spark' as const,
-      label: `${expertCount} at expert level`,
-      detail: 'the tools reached for first',
+      label: ui.skillsStats.expert(expertCount),
+      detail: ui.skillsStats.expertDetail,
     },
     {
       icon: 'years' as const,
-      label: '6+ years',
-      detail: 'all of it applied in production',
+      label: ui.skillsStats.years,
+      detail: ui.skillsStats.yearsDetail,
     },
   ]
 
   return (
     <div className="page-stack">
       <PageHero
-        kicker="Capabilities"
+        kicker={pageHero.skills.kicker}
         kickerIcon="skills"
-        title="Skills"
-        description="Full-stack engineering for AI products — backend, retrieval, data, and cloud. Levels are self-rated, and every domain is linked to a project where it was applied."
+        title={pageHero.skills.title}
+        description={pageHero.skills.description}
       />
 
       <ul className="skills-stats">
@@ -64,7 +65,7 @@ export function SkillsPage() {
         <div>
           <div className="section-kicker">
             <Icon name="research" />
-            <span>Secondary</span>
+            <span>{ui.skillsSecondary}</span>
           </div>
           <h2>{researchToolkit.title}</h2>
           <p>{researchToolkit.description}</p>
@@ -75,7 +76,7 @@ export function SkillsPage() {
           ))}
         </ul>
         <Link className="btn btn-ghost" to="/research">
-          See the research
+          {ui.seeTheResearch}
         </Link>
       </section>
     </div>

@@ -1,15 +1,13 @@
 import { useMemo, useState } from 'react'
-import {
-  projects,
-  projectCategories,
-  type ProjectCategory,
-} from '../data/content'
+import { type ProjectCategory } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { PageHero } from '../components/PageHero'
 import { ProjectCard } from '../components/ProjectCard'
 import { Reveal } from '../components/Reveal'
 import { Icon } from '../components/Icon'
 
 export function ProjectsPage() {
+  const { projects, projectCategories, pageHero, ui } = useContent()
   const [filter, setFilter] = useState<ProjectCategory | 'all'>('all')
   const [query, setQuery] = useState('')
 
@@ -21,22 +19,22 @@ export function ProjectsPage() {
     return byCategory.filter((p) =>
       [p.title, p.tag, p.blurb, ...p.stack].join(' ').toLowerCase().includes(q),
     )
-  }, [filter, query])
+  }, [filter, query, projects])
 
   const total = projects.length
 
   return (
     <div className="page-stack">
       <PageHero
-        kicker="Portfolio"
+        kicker={pageHero.projects.kicker}
         kickerIcon="work"
-        title="Projects"
-        description={`${total} projects across enterprise AI, full-stack delivery, open source, and the research track — ordered by career weight. Filter by track or search by name, client, or stack.`}
+        title={pageHero.projects.title}
+        description={ui.projectsDescription(total)}
       />
 
       <Reveal>
         <div className="project-controls">
-          <div className="filter-bar" role="toolbar" aria-label="Filter projects">
+          <div className="filter-bar" role="toolbar" aria-label={ui.filterProjects}>
             {projectCategories.map((item) => (
               <button
                 key={item.id}
@@ -53,17 +51,17 @@ export function ProjectsPage() {
             <Icon name="search" />
             <input
               type="search"
-              placeholder="Search projects, clients, stack…"
+              placeholder={ui.searchPlaceholder}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              aria-label="Search projects"
+              aria-label={ui.searchProjects}
             />
           </label>
         </div>
       </Reveal>
 
       <p className="project-count" aria-live="polite">
-        Showing {filtered.length} of {total} projects
+        {ui.showingCount(filtered.length, total)}
       </p>
 
       {filtered.length > 0 ? (
@@ -73,10 +71,7 @@ export function ProjectsPage() {
           ))}
         </ul>
       ) : (
-        <p className="empty-state">
-          No projects match "{query}"{filter !== 'all' ? ' in this filter' : ''}.
-          Try a different search term or clear the filter.
-        </p>
+        <p className="empty-state">{ui.noMatch(query, filter !== 'all')}</p>
       )}
     </div>
   )

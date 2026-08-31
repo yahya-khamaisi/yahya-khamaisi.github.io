@@ -1,7 +1,8 @@
-import { profile } from '../data/content'
+import { useContent } from '../i18n/useContent'
 import { Icon } from './Icon'
 
 export function Footer() {
+  const { profile, ui } = useContent()
   return (
     <footer className="site-footer">
       <div className="footer-inner">
@@ -10,7 +11,7 @@ export function Footer() {
             © {new Date().getFullYear()} {profile.name}
           </p>
           <span className="footer-dot" aria-hidden="true" />
-          <p className="footer-tagline">Built with React, TypeScript &amp; Vite</p>
+          <p className="footer-tagline">{ui.builtWith}</p>
         </div>
 
         <div className="footer-actions">
@@ -47,7 +48,7 @@ export function Footer() {
             className="footer-top"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            <span>Back to top</span>
+            <span>{ui.backToTop}</span>
             <svg
               viewBox="0 0 24 24"
               width="14"

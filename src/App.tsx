@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { LangProvider } from './i18n/LangProvider'
 import { SiteLayout } from './layouts/SiteLayout'
 import { HomePage } from './pages/HomePage'
 import { AboutPage } from './pages/AboutPage'
@@ -13,21 +14,23 @@ import './App.css'
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<SiteLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="projects" element={<ProjectsPage />} />
-          <Route path="projects/:slug" element={<ProjectDetailPage />} />
-          <Route path="experience" element={<ExperiencePage />} />
-          <Route path="education" element={<EducationPage />} />
-          <Route path="skills" element={<SkillsPage />} />
-          <Route path="research" element={<ResearchPage />} />
-          <Route path="contact" element={<ContactPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <LangProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<SiteLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="projects" element={<ProjectsPage />} />
+            <Route path="projects/:slug" element={<ProjectDetailPage />} />
+            <Route path="experience" element={<ExperiencePage />} />
+            <Route path="education" element={<EducationPage />} />
+            <Route path="skills" element={<SkillsPage />} />
+            <Route path="research" element={<ResearchPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </LangProvider>
   )
 }

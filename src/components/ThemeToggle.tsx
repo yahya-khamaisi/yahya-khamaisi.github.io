@@ -1,26 +1,28 @@
 import { useTheme, type ThemePreference } from '../theme/ThemeProvider'
-
-const labels: Record<ThemePreference, string> = {
-  system: 'Using system theme',
-  light: 'Using light theme',
-  dark: 'Using dark theme',
-}
+import { useUi } from '../i18n/useContent'
 
 export function ThemeToggle() {
   const { preference, cyclePreference } = useTheme()
+  const ui = useUi()
+
+  const labels: Record<ThemePreference, string> = {
+    system: ui.themeUsingSystem,
+    light: ui.themeUsingLight,
+    dark: ui.themeUsingDark,
+  }
 
   return (
     <button
       type="button"
       className="theme-toggle"
       onClick={cyclePreference}
-      aria-label={`${labels[preference]}. Click to change.`}
-      title={`${labels[preference]} · click to cycle`}
+      aria-label={`${labels[preference]}. ${ui.themeClickToChange}`}
+      title={`${labels[preference]} · ${ui.themeClickToChange}`}
     >
       {preference === 'system' && <SystemIcon />}
       {preference === 'light' && <SunIcon />}
       {preference === 'dark' && <MoonIcon />}
-      <span className="theme-toggle-label">{preference}</span>
+      <span className="theme-toggle-label">{ui.themeShort[preference]}</span>
     </button>
   )
 }
