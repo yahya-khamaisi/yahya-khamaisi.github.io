@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Yahya Khamayseh — full-stack engineer building AI systems in production. Agents, retrieval, APIs, and cloud, backed by doctoral research in applied AI."
+    />
+    <meta name="author" content="Yahya Khamayseh" />
+    <meta property="og:title" content="Yahya Khamayseh — Full-stack AI engineer" />
+    <meta
+      property="og:description"
+      content="Full-stack engineer building AI systems in production — agents, retrieval, APIs, and cloud. Six years of enterprise delivery, backed by doctoral research in applied AI."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/yahya.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Yahya Khamayseh</title>
+    <script>
+      // Single Page Apps for GitHub Pages — restore the path that 404.html encoded.
+      // https://github.com/rafgraph/spa-github-pages  (MIT)
+      ;(function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&')
+            })
+            .join('?')
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash,
+          )
+        }
+      })(window.location)
+    </script>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme-preference')
+          var pref =
+            stored === 'light' || stored === 'dark' || stored === 'system'
+              ? stored
+              : 'dark'
+          var dark =
+            pref === 'dark' ||
+            (pref === 'system' &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+          document.documentElement.dataset.themePreference = pref
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
