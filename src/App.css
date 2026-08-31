@@ -3253,7 +3253,8 @@ a.project-title:hover {
     min-width: 0;
   }
 
-  .pdiagram__arrow {
+  .pdiagram__arrow,
+  [dir='rtl'] .pdiagram__arrow {
     align-self: center;
     transform: rotate(135deg);
   }
