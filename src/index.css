@@ -23,8 +23,13 @@
   --radius: 14px;
   --sidebar-w: 244px;
   --gutter: clamp(1rem, 2vw, 2.5rem);
-  --font-display: 'Syne', sans-serif;
-  --font-body: 'IBM Plex Sans', sans-serif;
+  /* Claude.ai uses proprietary Styrene (UI) + Copernicus/Tiempos (headlines).
+     These are the closest free equivalents; the licensed names are kept first
+     so they're used automatically on machines that have them. */
+  --font-display: 'Copernicus', 'Tiempos Headline', 'Newsreader', Georgia,
+    'Times New Roman', serif;
+  --font-body: 'Styrene B', 'Styrene A', 'Inter', ui-sans-serif, system-ui,
+    -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: dark;
 }
@@ -68,6 +73,7 @@ body {
   background: var(--bg);
   font-family: var(--font-body);
   font-synthesis: none;
+  font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
