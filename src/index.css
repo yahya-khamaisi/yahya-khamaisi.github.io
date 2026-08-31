@@ -1,23 +1,34 @@
 :root,
 [data-theme='dark'] {
-  --bg: #0b0b0c;
-  --bg-elevated: #121214;
-  --surface: #17171a;
-  --surface-2: #1d1d21;
-  --border: #2a2a30;
-  --border-strong: #3a3a42;
-  --ink: #f3f3f4;
-  --ink-soft: #c4c4ca;
-  --muted: #8d8d97;
-  --accent: #f3f3f4;
-  --accent-soft: #a8a8b0;
-  --focus: #6ea8fe;
-  --danger: #f07178;
-  --ok: #7dcea0;
-  --btn-fg: #0b0b0c;
-  --mock-bg: #141417;
-  --mock-line: #2e2e35;
-  --mock-accent: #d0d0d6;
+  /* Cool near-black neutrals stepped in even tonal degrees, with a
+     confident blue accent used on CTAs, links, and the one emphasised
+     node per diagram. Tuned for high text/background contrast. */
+  --bg: #0b0d10;
+  --bg-elevated: #12151a;
+  --surface: #171b21;
+  --surface-2: #1f242c;
+  --border: #2f353f;
+  --border-strong: #454e5b;
+  --ink: #f8fafc;
+  --ink-soft: #d2d7df;
+  --muted: #9aa2ae;
+  --accent: #2f6bed;
+  --accent-strong: #4d84f5;
+  --accent-soft: #7ea9ec;
+  --focus: #5b95ff;
+  --danger: #f0757c;
+  --ok: #56c98a;
+  --btn-fg: #ffffff;
+  --mock-bg: #12151a;
+  --mock-line: #2f353f;
+  --mock-accent: #d8dde4;
+  /* Category tints — distinct hues, mixed toward --ink so they stay
+     high-contrast in both themes. */
+  --tint-industry: #4b8bf5;
+  --tint-research: #a78bfa;
+  --tint-github: #8b95a3;
+  --tint-personal: #e0913f;
+  --tint-earlier: #46c07f;
   --max: 1720px;
   --measure: 68ch;
   --radius: 14px;
@@ -35,24 +46,32 @@
 }
 
 [data-theme='light'] {
-  --bg: #f4f4f5;
+  /* Same tonal roles, inverted — crisp cool paper, high contrast. */
+  --bg: #f4f6f9;
   --bg-elevated: #ffffff;
   --surface: #ffffff;
-  --surface-2: #ececee;
-  --border: #e1e1e6;
-  --border-strong: #c9c9d1;
-  --ink: #121214;
-  --ink-soft: #3d3d45;
-  --muted: #6f6f7a;
-  --accent: #121214;
-  --accent-soft: #4a4a52;
-  --focus: #2563eb;
-  --danger: #b42318;
-  --ok: #1b7a4a;
-  --btn-fg: #f4f4f5;
-  --mock-bg: #f7f7f8;
-  --mock-line: #e1e1e6;
-  --mock-accent: #2a2a30;
+  --surface-2: #e8ecf1;
+  --border: #d7dce4;
+  --border-strong: #b6bfcc;
+  --ink: #0a0d12;
+  --ink-soft: #2d3540;
+  --muted: #565e6b;
+  --accent: #1a4fd6;
+  --accent-strong: #123fb4;
+  --accent-soft: #2c5fd8;
+  --focus: #1a4fd6;
+  --danger: #c0331f;
+  --ok: #1c7a44;
+  --btn-fg: #ffffff;
+  --mock-bg: #ffffff;
+  --mock-line: #d7dce4;
+  --mock-accent: #1b2430;
+  /* Category tints — deepened for contrast on the light paper. */
+  --tint-industry: #1a4fd6;
+  --tint-research: #6d3fd0;
+  --tint-github: #495260;
+  --tint-personal: #b3560c;
+  --tint-earlier: #127a3c;
   color-scheme: light;
 }
 
@@ -101,6 +120,6 @@ textarea {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--focus) 35%, transparent);
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
   color: var(--ink);
 }

@@ -247,7 +247,7 @@ button:focus-visible,
 }
 
 .sidebar__nav a.is-active::before {
-  color: var(--focus);
+  color: var(--accent);
 }
 
 .sidebar__footer {
@@ -498,8 +498,8 @@ main:focus {
 }
 
 .btn-primary:hover {
-  background: var(--ink-soft);
-  border-color: var(--ink-soft);
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
   color: var(--btn-fg);
 }
 
@@ -764,31 +764,31 @@ main:focus {
 }
 
 .category-pill--industry {
-  color: #8fd3ff;
-  border-color: color-mix(in srgb, #8fd3ff 35%, var(--border));
-  background: color-mix(in srgb, #8fd3ff 12%, var(--surface-2));
+  color: color-mix(in srgb, var(--tint-industry) 74%, var(--ink));
+  border-color: color-mix(in srgb, var(--tint-industry) 35%, var(--border));
+  background: color-mix(in srgb, var(--tint-industry) 12%, var(--surface-2));
 }
 
 .category-pill--research {
-  color: #c9a8ff;
-  border-color: color-mix(in srgb, #c9a8ff 35%, var(--border));
-  background: color-mix(in srgb, #c9a8ff 12%, var(--surface-2));
+  color: color-mix(in srgb, var(--tint-research) 74%, var(--ink));
+  border-color: color-mix(in srgb, var(--tint-research) 35%, var(--border));
+  background: color-mix(in srgb, var(--tint-research) 12%, var(--surface-2));
 }
 
 .category-pill--github {
-  color: #a8b6c6;
+  color: color-mix(in srgb, var(--tint-github) 74%, var(--ink));
 }
 
 .category-pill--personal {
-  color: #ffd18f;
-  border-color: color-mix(in srgb, #ffd18f 35%, var(--border));
-  background: color-mix(in srgb, #ffd18f 12%, var(--surface-2));
+  color: color-mix(in srgb, var(--tint-personal) 74%, var(--ink));
+  border-color: color-mix(in srgb, var(--tint-personal) 35%, var(--border));
+  background: color-mix(in srgb, var(--tint-personal) 12%, var(--surface-2));
 }
 
 .category-pill--earlier {
-  color: #9fd8b0;
-  border-color: color-mix(in srgb, #9fd8b0 35%, var(--border));
-  background: color-mix(in srgb, #9fd8b0 12%, var(--surface-2));
+  color: color-mix(in srgb, var(--tint-earlier) 74%, var(--ink));
+  border-color: color-mix(in srgb, var(--tint-earlier) 35%, var(--border));
+  background: color-mix(in srgb, var(--tint-earlier) 12%, var(--surface-2));
 }
 
 .project-card__role {
@@ -1031,7 +1031,7 @@ a.project-title:hover {
   font-weight: 600;
   font-size: 0.75rem;
   letter-spacing: 0.04em;
-  color: var(--focus);
+  color: var(--accent);
 }
 
 .exp-entry__when .place {
@@ -1462,9 +1462,9 @@ a.project-title:hover {
 }
 
 .edu-status--in-progress {
-  color: #8fd3ff;
-  border-color: color-mix(in srgb, #8fd3ff 35%, var(--border));
-  background: color-mix(in srgb, #8fd3ff 12%, var(--surface-2));
+  color: color-mix(in srgb, var(--tint-industry) 74%, var(--ink));
+  border-color: color-mix(in srgb, var(--tint-industry) 35%, var(--border));
+  background: color-mix(in srgb, var(--tint-industry) 12%, var(--surface-2));
 }
 
 .edu-entry__degree {
@@ -1500,9 +1500,9 @@ a.project-title:hover {
 }
 
 .edu-badge--honor {
-  color: #ffd18f;
-  border-color: color-mix(in srgb, #ffd18f 35%, var(--border));
-  background: color-mix(in srgb, #ffd18f 12%, var(--surface-2));
+  color: color-mix(in srgb, var(--tint-research) 74%, var(--ink));
+  border-color: color-mix(in srgb, var(--tint-research) 35%, var(--border));
+  background: color-mix(in srgb, var(--tint-research) 12%, var(--surface-2));
 }
 
 /* Research */
@@ -1981,7 +1981,7 @@ a.project-title:hover {
 .mock-bubble.user {
   justify-self: end;
   background: var(--ink);
-  color: var(--btn-fg);
+  color: var(--bg);
   border-color: var(--ink);
 }
 
@@ -2132,7 +2132,12 @@ a.project-title:hover {
 
 .mock-brand__hero {
   border-radius: 8px;
-  background: linear-gradient(160deg, #2a2a30, #111114 60%, #3a3a42);
+  background: linear-gradient(
+    160deg,
+    var(--surface-2),
+    color-mix(in srgb, var(--accent) 22%, var(--mock-bg)) 60%,
+    var(--border-strong)
+  );
   min-height: 7.5rem;
 }
 
@@ -2180,7 +2185,7 @@ a.project-title:hover {
 
 .mock-arch .node.accent {
   background: var(--ink);
-  color: var(--btn-fg);
+  color: var(--bg);
   border-color: var(--ink);
 }
 
@@ -2968,6 +2973,11 @@ a.project-title:hover {
   line-height: 1.1;
 }
 
+.project-detail {
+  display: grid;
+  gap: 1.9rem;
+}
+
 .project-detail__role {
   margin: 0 0 0.6rem;
   text-transform: none;
@@ -2976,47 +2986,220 @@ a.project-title:hover {
 
 .project-detail__layout {
   display: grid;
-  grid-template-columns: minmax(16rem, 0.95fr) 1.2fr;
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: minmax(0, 1fr) 19rem;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: start;
 }
 
-.project-detail__visual {
+.project-detail__body {
+  display: grid;
+  gap: 1.75rem;
+  align-content: start;
+  min-width: 0;
+}
+
+.project-detail__body > section {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.project-detail__body > section:not(.project-detail__arch) {
+  max-width: 68ch;
+}
+
+.project-detail__body h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.project-detail__body .detail-list,
+.project-detail__body .impact-list {
+  margin: 0;
+}
+
+.project-detail__overview {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.project-detail__arch .pdiagram {
+  max-width: 58rem;
+}
+
+/* Sticky info rail — carries the mock, quick facts, and stack so the
+   column reads as content rather than a half-empty decorative panel. */
+.project-detail__rail {
   position: sticky;
   top: 5.5rem;
-  padding: 0.9rem;
+  display: grid;
+  gap: 0.85rem;
+  align-content: start;
+}
+
+.project-detail__visual {
+  padding: 0.7rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-elevated);
 }
 
-.project-detail__body {
-  padding: 1.1rem 1.2rem;
+.rail-card {
+  padding: 0.95rem 1.05rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
+}
+
+.rail-card h3 {
+  margin: 0 0 0.7rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.rail-card .stack {
+  margin: 0;
+}
+
+.rail-facts {
+  margin: 0;
   display: grid;
-  gap: 0.75rem;
+  gap: 0.7rem;
+}
+
+.rail-facts > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.rail-facts dt {
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.rail-facts dd {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+.pdiagram {
+  margin: 0.1rem 0 0.2rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.pdiagram__caption {
+  color: var(--ink-soft);
+  line-height: 1.55;
+  font-size: 0.9rem;
+}
+
+.pdiagram__flow {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.35rem;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  overflow-x: auto;
+}
+
+.pdiagram__col {
+  flex: 1 1 0;
+  min-width: 6rem;
+  display: grid;
+  gap: 0.4rem;
   align-content: start;
 }
 
-.project-detail__body h2 {
-  margin: 0.35rem 0 0;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  letter-spacing: -0.02em;
+.pdiagram__col-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
 }
 
-.project-detail__body h2:first-child {
-  margin-top: 0;
+.pdiagram__node {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.5rem 0.55rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  background: var(--surface);
 }
 
-.project-detail__overview {
+.pdiagram__node b {
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.pdiagram__node span {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.pdiagram__node.is-accent {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.pdiagram__node.is-accent b {
+  color: var(--btn-fg);
+}
+
+.pdiagram__node.is-accent span {
+  color: color-mix(in srgb, var(--btn-fg) 80%, transparent);
+}
+
+.pdiagram__arrow {
+  flex: 0 0 auto;
+  align-self: center;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-top: 2px solid var(--muted);
+  border-right: 2px solid var(--muted);
+  transform: rotate(45deg);
+}
+
+.pdiagram__note {
   margin: 0;
-  color: var(--ink-soft);
-  line-height: 1.65;
-  font-size: 0.96rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+@media (max-width: 620px) {
+  .pdiagram__flow {
+    flex-direction: column;
+    overflow-x: visible;
+  }
+
+  .pdiagram__col {
+    min-width: 0;
+  }
+
+  .pdiagram__arrow {
+    align-self: center;
+    transform: rotate(135deg);
+  }
 }
 
 .impact-list {
@@ -3180,14 +3363,27 @@ a.project-title:hover {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .project-detail__layout {
     grid-template-columns: 1fr;
+    gap: 1.75rem;
   }
 
-  .project-detail__visual {
+  .project-detail__rail {
     position: static;
-    max-height: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .project-detail__arch .pdiagram {
+    max-width: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .project-detail__rail {
+    grid-auto-flow: row;
   }
 }
 

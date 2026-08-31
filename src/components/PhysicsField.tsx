@@ -35,14 +35,14 @@ export function PhysicsField() {
     const color =
       resolved === 'dark'
         ? {
-            dot: 'rgba(210, 218, 235, 0.55)',
-            line: 'rgba(180, 195, 230, 0.11)',
-            glow: 'rgba(170, 190, 255, 0.08)',
+            dot: 'rgba(216, 224, 238, 0.55)',
+            line: 'rgba(110, 152, 240, 0.14)',
+            glow: 'rgba(90, 140, 250, 0.09)',
           }
         : {
-            dot: 'rgba(40, 55, 90, 0.35)',
-            line: 'rgba(40, 60, 110, 0.08)',
-            glow: 'rgba(60, 90, 160, 0.05)',
+            dot: 'rgba(26, 40, 74, 0.36)',
+            line: 'rgba(26, 79, 214, 0.10)',
+            glow: 'rgba(26, 79, 214, 0.06)',
           }
 
     function resize() {
@@ -131,8 +131,8 @@ export function PhysicsField() {
             const alpha = (1 - dist / linkDist) * (resolved === 'dark' ? 0.14 : 0.1)
             ctx!.strokeStyle =
               resolved === 'dark'
-                ? `rgba(180, 195, 230, ${alpha})`
-                : `rgba(40, 60, 110, ${alpha})`
+                ? `rgba(110, 152, 240, ${alpha})`
+                : `rgba(26, 79, 214, ${alpha})`
             ctx!.lineWidth = 1
             ctx!.beginPath()
             ctx!.moveTo(a.x, a.y)

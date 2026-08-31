@@ -5,6 +5,8 @@ import {
   type Project,
 } from '../data/content'
 import { MockUi } from '../components/MockUi'
+import { ProjectDiagram } from '../components/ProjectDiagram'
+import { diagramSlugs } from '../data/diagrams'
 import { Reveal } from '../components/Reveal'
 
 const categoryLabels: Record<Project['category'], string> = {
@@ -82,37 +84,73 @@ export function ProjectDetailPage() {
         </Reveal>
 
         <div className="project-detail__layout">
-          <Reveal delay={60}>
-            <div className="project-detail__visual">
-              <MockUi kind={project.mock} />
+          <Reveal delay={80}>
+            <div className="project-detail__body">
+              <section>
+                <h2>Overview</h2>
+                <p className="project-detail__overview">{project.overview}</p>
+              </section>
+
+              {diagramSlugs.has(project.slug) && (
+                <section className="project-detail__arch">
+                  <h2>Architecture</h2>
+                  <ProjectDiagram slug={project.slug} />
+                </section>
+              )}
+
+              <section>
+                <h2>What shipped</h2>
+                <ul className="detail-list">
+                  {project.details.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ul>
+              </section>
+
+              <section>
+                <h2>Impact</h2>
+                <ul className="impact-list">
+                  {project.impact.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ul>
+              </section>
             </div>
           </Reveal>
-          <Reveal delay={100}>
-            <div className="project-detail__body">
-              <h2>Overview</h2>
-              <p className="project-detail__overview">{project.overview}</p>
 
-              <h2>What shipped</h2>
-              <ul className="detail-list">
-                {project.details.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
+          <Reveal delay={60}>
+            <aside className="project-detail__rail">
+              <div className="project-detail__visual">
+                <MockUi kind={project.mock} />
+              </div>
 
-              <h2>Impact</h2>
-              <ul className="impact-list">
-                {project.impact.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
+              <div className="rail-card">
+                <h3>At a glance</h3>
+                <dl className="rail-facts">
+                  <div>
+                    <dt>Role</dt>
+                    <dd>{project.role}</dd>
+                  </div>
+                  <div>
+                    <dt>Timeline</dt>
+                    <dd>{project.period}</dd>
+                  </div>
+                  <div>
+                    <dt>Track</dt>
+                    <dd>{categoryLabels[project.category]}</dd>
+                  </div>
+                </dl>
+              </div>
 
-              <h2>Stack</h2>
-              <ul className="stack stack-row">
-                {project.stack.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
+              <div className="rail-card">
+                <h3>Stack</h3>
+                <ul className="stack stack-row">
+                  {project.stack.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </aside>
           </Reveal>
         </div>
       </article>
