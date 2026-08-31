@@ -608,6 +608,7 @@ main:focus {
 .section-kicker {
   display: inline-flex;
   align-items: center;
+  justify-self: start;
   gap: 0.45rem;
   margin-bottom: 0.7rem;
   padding: 0.28rem 0.6rem;
@@ -649,7 +650,7 @@ main:focus {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(21rem, 100%), 1fr));
   gap: 1.15rem;
   align-items: stretch;
 }
@@ -705,10 +706,16 @@ main:focus {
 .project-card__visual {
   position: relative;
   aspect-ratio: 16 / 10;
-  padding: 0.85rem;
+  padding: 1rem 1.1rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg-elevated);
   display: flex;
+}
+
+/* The mock's own titlebar label collides with the badge and repeats the
+   card title — drop it inside cards, keep it on the detail page. */
+.project-card__visual .mock-ui__chrome em {
+  display: none;
 }
 
 .project-card__badge {
@@ -1094,7 +1101,7 @@ a.project-title:hover {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
   gap: 0.75rem;
 }
 
@@ -2462,7 +2469,7 @@ a.project-title:hover {
     width: 100%;
     flex-direction: column;
     gap: 0;
-    padding: 0.7rem 1rem;
+    padding: 0.7rem var(--gutter);
     border-right: none;
     border-bottom: 1px solid var(--border);
     overflow: visible;
@@ -2518,7 +2525,7 @@ a.project-title:hover {
   .hero {
     grid-template-columns: 1fr;
     min-height: 0;
-    padding-top: 2rem;
+    padding-top: 1.25rem;
   }
 
   .highlight-strip {
@@ -2569,14 +2576,6 @@ a.project-title:hover {
 }
 
 @media (max-width: 640px) {
-  .page {
-    width: min(100% - 1.25rem, var(--max));
-  }
-
-  .sidebar {
-    padding-inline: 0.75rem;
-  }
-
   .highlight-strip,
   .skills-grid,
   .skills-stats,
@@ -2752,6 +2751,19 @@ a.project-title:hover {
   flex-shrink: 0;
 }
 
+/* Stack filters over a full-width search on phones (placed after the base
+   rules so it wins the cascade). */
+@media (max-width: 640px) {
+  .project-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .project-search {
+    min-width: 0;
+  }
+}
+
 .project-count {
   margin: -0.4rem 0 0;
   color: var(--muted);
@@ -2912,7 +2924,7 @@ a.project-title:hover {
 .about-essay {
   display: grid;
   gap: clamp(1.25rem, 2.5vw, 2rem);
-  grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr));
   align-items: start;
 }
 
@@ -3359,7 +3371,7 @@ a.project-title:hover {
 
   .about-hero__stats {
     grid-column: 1 / -1;
-    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
   }
 }
 
@@ -3394,6 +3406,11 @@ a.project-title:hover {
 
   .about-hero__portrait {
     justify-self: start;
+  }
+
+  .about-hero__facts {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 
