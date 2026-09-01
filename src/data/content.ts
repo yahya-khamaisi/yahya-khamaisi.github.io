@@ -1237,6 +1237,23 @@ export type Ui = {
   themeUsingDark: string
   themeClickToChange: string
   themeShort: { system: string; light: string; dark: string }
+  settings: {
+    open: string
+    title: string
+    textSize: string
+    sizeSmall: string
+    sizeMedium: string
+    sizeLarge: string
+    typeface: string
+    faceEditorial: string
+    faceModern: string
+    faceCompact: string
+    language: string
+    langEnglish: string
+    langArabic: string
+    theme: string
+    close: string
+  }
 }
 
 export type SystemsContent = {
@@ -1359,6 +1376,23 @@ export const enUi: Ui = {
   themeUsingDark: 'Using dark theme',
   themeClickToChange: 'Click to change.',
   themeShort: { system: 'system', light: 'light', dark: 'dark' },
+  settings: {
+    open: 'Settings',
+    title: 'Display settings',
+    textSize: 'Text size',
+    sizeSmall: 'Small',
+    sizeMedium: 'Medium',
+    sizeLarge: 'Large',
+    typeface: 'Typeface',
+    faceEditorial: 'Editorial',
+    faceModern: 'Modern',
+    faceCompact: 'Compact',
+    language: 'Language',
+    langEnglish: 'English',
+    langArabic: 'العربية',
+    theme: 'Appearance',
+    close: 'Close',
+  },
 }
 
 export const enHome: HomeCopy = {

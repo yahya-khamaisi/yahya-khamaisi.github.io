@@ -1263,6 +1263,23 @@ const ui: Ui = {
   themeUsingDark: 'السمة الداكنة',
   themeClickToChange: 'انقر للتغيير.',
   themeShort: { system: 'النظام', light: 'فاتح', dark: 'داكن' },
+  settings: {
+    open: 'الإعدادات',
+    title: 'إعدادات العرض',
+    textSize: 'حجم النص',
+    sizeSmall: 'صغير',
+    sizeMedium: 'متوسط',
+    sizeLarge: 'كبير',
+    typeface: 'الخط',
+    faceEditorial: 'تحريري',
+    faceModern: 'حديث',
+    faceCompact: 'مضغوط',
+    language: 'اللغة',
+    langEnglish: 'English',
+    langArabic: 'العربية',
+    theme: 'المظهر',
+    close: 'إغلاق',
+  },
 }
 
 export const ar: Site = {

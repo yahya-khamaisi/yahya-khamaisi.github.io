@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
+import { SettingsPanel } from '../components/SettingsPanel'
 import { PhysicsField } from '../components/PhysicsField'
 import { ThemeProvider } from '../theme/ThemeProvider'
 import { useDocumentMeta } from '../hooks/useDocumentMeta'
@@ -53,6 +54,7 @@ function Chrome() {
       </a>
       <PhysicsField />
       <Header />
+      <SettingsPanel />
       <div className="page">
         <main id="main" tabIndex={-1}>
           <Outlet />

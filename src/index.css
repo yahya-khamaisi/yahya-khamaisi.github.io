@@ -53,6 +53,21 @@
     -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
+/* Typeface preference (Settings) — editorial is the default above.
+   `modern` drops the serif headlines; `compact` sets mono headlines. */
+:root[data-font='modern'] {
+  --font-display: var(--font-body);
+}
+
+:root[data-font='compact'] {
+  --font-display: var(--font-mono);
+}
+
+/* Mono headlines have no Arabic glyphs — fall back to the body face. */
+:root[dir='rtl'][data-font='compact'] {
+  --font-display: var(--font-body);
+}
+
 [data-theme='light'] {
   /* Same tonal roles, inverted — crisp cool paper, high contrast. */
   --bg: #f4f6f9;
@@ -87,6 +102,20 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+/* Base type scale (Settings › Text size) — rem-based sizing across the
+   site keys off this. `medium` is the default. */
+:root {
+  font-size: clamp(16.5px, 15.9px + 0.22vw, 18px);
+}
+
+:root[data-font-size='small'] {
+  font-size: clamp(15px, 14.7px + 0.16vw, 16.25px);
+}
+
+:root[data-font-size='large'] {
+  font-size: clamp(18px, 16.9px + 0.34vw, 20.5px);
 }
 
 body {

@@ -30,6 +30,16 @@ export function Hero({ compact = false }: HeroProps) {
               {ui.contact}
             </Link>
           </Magnetic>
+          <Magnetic strength={12}>
+            <a
+              className="btn btn-ghost"
+              href={profile.cvUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {ui.downloadCv}
+            </a>
+          </Magnetic>
         </div>
         <ul className="hero-stack" aria-label="Core stack">
           {heroStack.map((tool) => (

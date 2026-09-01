@@ -79,6 +79,19 @@
         } catch (e) {}
       })()
     </script>
+    <script>
+      // Text size + typeface preference, applied before paint.
+      (function () {
+        try {
+          var s = localStorage.getItem('font-size-preference')
+          if (s === 'small' || s === 'large')
+            document.documentElement.dataset.fontSize = s
+          var f = localStorage.getItem('font-family-preference')
+          if (f === 'modern' || f === 'compact')
+            document.documentElement.dataset.font = f
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

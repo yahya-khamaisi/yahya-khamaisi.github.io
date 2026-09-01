@@ -2,12 +2,34 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useContent } from '../i18n/useContent'
 import { useScrollSpy } from '../hooks/useScrollSpy'
-import { ThemeToggle } from './ThemeToggle'
-import { LangToggle } from './LangToggle'
+import { useSettings } from '../settings/SettingsProvider'
 import { Icon } from './Icon'
+
+function GearIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18">
+      <circle
+        cx="12"
+        cy="12"
+        r="3.2"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M12 2.6l1.5 2.3 2.7-.7.6 2.7 2.7.9-.9 2.6.9 2.6-2.7.9-.6 2.7-2.7-.7L12 21.4l-1.5-2.3-2.7.7-.6-2.7-2.7-.9.9-2.6-.9-2.6 2.7-.9.6-2.7 2.7.7z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 export function Header() {
   const { profile, nav, ui } = useContent()
+  const { openSettings } = useSettings()
   const [open, setOpen] = useState(false)
   const location = useLocation()
   const onHome = location.pathname === '/'
@@ -63,8 +85,15 @@ export function Header() {
           >
             {ui.downloadCv}
           </a>
-          <LangToggle />
-          <ThemeToggle />
+          <button
+            type="button"
+            className="topbar__icon-btn"
+            onClick={openSettings}
+            aria-label={ui.settings.open}
+            title={ui.settings.open}
+          >
+            <GearIcon />
+          </button>
           <button
             type="button"
             className="topbar__toggle"
