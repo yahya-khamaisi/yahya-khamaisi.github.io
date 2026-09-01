@@ -123,9 +123,10 @@ html {
      which pushes containers wider than the screen. */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* Nothing may cause a sideways scroll — `clip` (not `hidden`) leaves
-     the sticky header working and doesn't make this a scroll container. */
-  overflow-x: clip;
+  /* `hidden` on the root is the reliable way to stop iOS Safari expanding
+     the layout viewport (and letting the page scroll sideways) when some
+     descendant is a touch too wide. Vertical scroll is unaffected. */
+  overflow-x: hidden;
 }
 
 body {
