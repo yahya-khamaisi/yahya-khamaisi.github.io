@@ -6,6 +6,7 @@
  */
 import {
   categoryLabels as enCategoryLabels,
+  skillTools,
   type Site,
   type Project,
   type Experience,
@@ -726,53 +727,33 @@ const skillGroups: SkillGroup[] = [
     title: 'الخوادم والواجهات البرمجية',
     icon: 'api',
     description:
-      'مجموعة الأدوات الافتراضية لشحن خدمات موثوقة — من وكلاء FastAPI إلى بوابات NestJS الإدارية.',
+      'مجموعة الأدوات الافتراضية لشحن خدمات موثوقة — وكلاء FastAPI، وبوابات NestJS الإدارية، وAzure Functions، والخدمات المصغّرة وخطافات الويب.',
     relatedProjectSlug: 'te-ai-portal',
-    items: [
-      { label: 'Python / FastAPI / Flask', icon: 'python', level: 5 },
-      { label: 'Node.js / Express / NestJS', icon: 'code', level: 5 },
-      { label: 'Azure Functions وواجهات REST', icon: 'cloud', level: 5 },
-      { label: 'الخدمات المصغّرة وخطافات الويب', icon: 'network', level: 4 },
-    ],
+    tools: skillTools.backend,
   },
   {
     title: 'الذكاء الاصطناعي والاسترجاع',
     icon: 'ai',
     description:
-      'تحويل نماذج اللغة إلى ميزات منتج موثوقة لا عروض توضيحية — استرجاع وأدوات وحلقات تقييم.',
+      'تحويل نماذج اللغة إلى ميزات منتج موثوقة لا عروض توضيحية — RAG وكيلي، وبوابات أدوات، وحلقات تقييم فوق البحث المتجهي والنصي.',
     relatedProjectSlug: 'coolriots-rag',
-    items: [
-      { label: 'ذكاء اصطناعي وكيلي / أنظمة RAG', icon: 'spark', level: 5 },
-      { label: 'LangChain / OpenAI / Azure AI Foundry', icon: 'ai', level: 4 },
-      { label: 'Milvus / ChromaDB / Elasticsearch', icon: 'search', level: 4 },
-      { label: 'هندسة التوجيهات والتقييم', icon: 'chip', level: 4 },
-    ],
+    tools: skillTools.ai,
   },
   {
     title: 'البيانات والسحابة',
     icon: 'cloud',
     description:
-      'بيانات تبقى سريعة تحت الحِمل، وبنية سحابية لا توقظ أحداً الساعة الثالثة فجراً.',
+      'بيانات تبقى سريعة تحت الحِمل، وبنية سحابية لا توقظ أحداً الساعة الثالثة فجراً — تصميم مخططات، وضبط استعلامات، وحاويات، وCI/CD.',
     relatedProjectSlug: 'bexinsight',
-    items: [
-      { label: 'PostgreSQL / MongoDB / Redis', icon: 'database', level: 5 },
-      { label: 'Container Apps / APIM / Queues', icon: 'cloud', level: 4 },
-      { label: 'Docker وخطوط CI/CD', icon: 'docker', level: 4 },
-      { label: 'تصميم المخططات وضبط الاستعلامات', icon: 'database', level: 5 },
-    ],
+    tools: skillTools.cloud,
   },
   {
     title: 'الـ Full Stack والمنتج',
     icon: 'react',
     description:
-      'سطح المنتج الذي يُشحن عليه الذكاء الاصطناعي — بوابات، وأدوات قابلة للتضمين، والتحكّم بالوصول الذي يعتمد عليه المشغّلون.',
+      'سطح المنتج الذي يُشحن عليه الذكاء الاصطناعي — بوابات إدارية، وأدوات قابلة للتضمين، وأنماط RBAC / SSO / التدقيق التي يعتمد عليها المشغّلون.',
     relatedProjectSlug: 'reimbursement-portal',
-    items: [
-      { label: 'React / Next.js / TypeScript', icon: 'react', level: 4 },
-      { label: 'البوابات الإدارية والأدوات القابلة للتضمين', icon: 'code', level: 4 },
-      { label: 'أنماط RBAC / SSO / التدقيق', icon: 'security', level: 4 },
-      { label: 'تصميم الواجهات والتكامل', icon: 'api', level: 5 },
-    ],
+    tools: skillTools.product,
   },
 ]
 

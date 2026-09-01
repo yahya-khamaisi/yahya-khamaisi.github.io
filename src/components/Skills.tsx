@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useContent } from '../i18n/useContent'
 import { Icon } from './Icon'
+import { BrandMark } from './BrandMark'
 
 export function Skills() {
   const { skillGroups, ui } = useContent()
@@ -15,27 +16,13 @@ export function Skills() {
             <h3>{group.title}</h3>
           </div>
           <p className="skill-group__desc">{group.description}</p>
-          <ul>
-            {group.items.map((item) => (
-              <li key={item.label}>
-                <span className="skill-item-icon" aria-hidden="true">
-                  <Icon name={item.icon} />
+          <ul className="skill-tools">
+            {group.tools.map((tool) => (
+              <li key={tool.name} className="skill-tool">
+                <span className="skill-tool__mark">
+                  <BrandMark brand={tool.brand} />
                 </span>
-                <div className="skill-item__body">
-                  <span>{item.label}</span>
-                  <span
-                    className="skill-level"
-                    role="img"
-                    aria-label={ui.proficiency(item.level)}
-                  >
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <i
-                        key={i}
-                        className={i < item.level ? 'is-filled' : undefined}
-                      />
-                    ))}
-                  </span>
-                </div>
+                {tool.name}
               </li>
             ))}
           </ul>

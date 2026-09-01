@@ -6,6 +6,7 @@ import {
 } from './systems'
 import { projectDiagrams } from './diagrams'
 import type { Diagram } from './diagrams'
+import type { BrandKey } from './brands'
 
 export type Profile = {
   name: string
@@ -833,19 +834,47 @@ export function getAdjacentProjects(list: Project[], slug: string) {
   }
 }
 
-export type SkillItem = {
-  label: string
-  icon: IconName
-  /** self-rated proficiency, 1–5 */
-  level: number
-}
+export type SkillTool = { name: string; brand: BrandKey }
 
 export type SkillGroup = {
   title: string
   icon: IconName
   description: string
   relatedProjectSlug?: string
-  items: SkillItem[]
+  tools: SkillTool[]
+}
+
+/** Tool lists are shared across languages — brand names stay in Latin. */
+export const skillTools: Record<string, SkillTool[]> = {
+  backend: [
+    { name: 'Python', brand: 'python' },
+    { name: 'FastAPI', brand: 'fastapi' },
+    { name: 'Flask', brand: 'flask' },
+    { name: 'Node.js', brand: 'nodedotjs' },
+    { name: 'NestJS', brand: 'nestjs' },
+    { name: 'Express', brand: 'express' },
+  ],
+  ai: [
+    { name: 'LangChain', brand: 'langchain' },
+    { name: 'OpenAI', brand: 'openai' },
+    { name: 'Azure AI Foundry', brand: 'azure' },
+    { name: 'Milvus', brand: 'milvus' },
+    { name: 'Elasticsearch', brand: 'elasticsearch' },
+  ],
+  cloud: [
+    { name: 'PostgreSQL', brand: 'postgresql' },
+    { name: 'MongoDB', brand: 'mongodb' },
+    { name: 'Redis', brand: 'redis' },
+    { name: 'Docker', brand: 'docker' },
+    { name: 'Azure', brand: 'azure' },
+    { name: 'GitHub Actions', brand: 'githubactions' },
+  ],
+  product: [
+    { name: 'React', brand: 'react' },
+    { name: 'Next.js', brand: 'nextdotjs' },
+    { name: 'TypeScript', brand: 'typescript' },
+    { name: 'Prisma', brand: 'prisma' },
+  ],
 }
 
 export const skillGroups: SkillGroup[] = [
@@ -853,53 +882,33 @@ export const skillGroups: SkillGroup[] = [
     title: 'Backend & APIs',
     icon: 'api',
     description:
-      'The default toolkit for shipping reliable services — from FastAPI agents to NestJS admin portals.',
+      'The default toolkit for shipping reliable services — FastAPI agents, NestJS admin portals, Azure Functions, microservices, and webhooks.',
     relatedProjectSlug: 'te-ai-portal',
-    items: [
-      { label: 'Python / FastAPI / Flask', icon: 'python', level: 5 },
-      { label: 'Node.js / Express / NestJS', icon: 'code', level: 5 },
-      { label: 'Azure Functions & REST APIs', icon: 'cloud', level: 5 },
-      { label: 'Microservices & webhooks', icon: 'network', level: 4 },
-    ],
+    tools: skillTools.backend,
   },
   {
     title: 'AI & Retrieval',
     icon: 'ai',
     description:
-      'Turning LLMs into dependable product features rather than demos — retrieval, tools, and evaluation loops.',
+      'Turning LLMs into dependable product features rather than demos — agentic RAG, tool gateways, and evaluation loops over vector and text search.',
     relatedProjectSlug: 'coolriots-rag',
-    items: [
-      { label: 'Agentic AI / RAG systems', icon: 'spark', level: 5 },
-      { label: 'LangChain / OpenAI / Azure AI Foundry', icon: 'ai', level: 4 },
-      { label: 'Milvus / ChromaDB / Elasticsearch', icon: 'search', level: 4 },
-      { label: 'Prompt engineering & evaluation', icon: 'chip', level: 4 },
-    ],
+    tools: skillTools.ai,
   },
   {
     title: 'Data & Cloud',
     icon: 'cloud',
     description:
-      'Data that stays fast under load, and cloud infrastructure that does not page anyone at 3am.',
+      'Data that stays fast under load, and cloud infrastructure that does not page anyone at 3am — schema design, query tuning, containers, and CI/CD.',
     relatedProjectSlug: 'bexinsight',
-    items: [
-      { label: 'PostgreSQL / MongoDB / Redis', icon: 'database', level: 5 },
-      { label: 'Container Apps / APIM / Queues', icon: 'cloud', level: 4 },
-      { label: 'Docker & CI/CD pipelines', icon: 'docker', level: 4 },
-      { label: 'Schema design & query tuning', icon: 'database', level: 5 },
-    ],
+    tools: skillTools.cloud,
   },
   {
     title: 'Full Stack & Product',
     icon: 'react',
     description:
-      'The product surface AI ships on — portals, embeddable widgets, and the access control operators rely on.',
+      'The product surface AI ships on — admin portals, embeddable widgets, and the RBAC / SSO / audit patterns operators rely on.',
     relatedProjectSlug: 'reimbursement-portal',
-    items: [
-      { label: 'React / Next.js / TypeScript', icon: 'react', level: 4 },
-      { label: 'Admin portals & embeddable widgets', icon: 'code', level: 4 },
-      { label: 'RBAC / SSO / audit patterns', icon: 'security', level: 4 },
-      { label: 'API design & integration', icon: 'api', level: 5 },
-    ],
+    tools: skillTools.product,
   },
 ]
 
