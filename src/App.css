@@ -1961,7 +1961,13 @@ a.project-title:hover {
 
 .mock-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.45rem;
+  min-width: 0;
+}
+
+.mock-row > * {
+  min-width: 0;
 }
 
 .mock-row.mini {
@@ -2004,7 +2010,8 @@ a.project-title:hover {
   border-radius: 8px;
   padding: 0.35rem 0.45rem;
   background: var(--surface);
-  min-width: 4rem;
+  min-width: 0;
+  flex: 1 1 4rem;
 }
 
 .mock-stat.compact {

@@ -121,6 +121,9 @@
 body {
   margin: 0;
   min-width: 320px;
+  /* Nothing may cause a sideways scroll — `clip` (not `hidden`) leaves
+     the sticky header working and doesn't make body a scroll container. */
+  overflow-x: clip;
   color: var(--ink);
   background: var(--bg);
   font-family: var(--font-body);
