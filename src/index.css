@@ -32,7 +32,7 @@
   --max: 1720px;
   --measure: 68ch;
   --radius: 14px;
-  --sidebar-w: 244px;
+  --header-h: 4rem;
   --gutter: clamp(1rem, 2vw, 2.5rem);
   /* Claude.ai uses proprietary Styrene (UI) + Copernicus/Tiempos (headlines).
      These are the closest free equivalents; the licensed names are kept first
@@ -87,10 +87,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {

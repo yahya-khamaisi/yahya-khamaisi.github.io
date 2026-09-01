@@ -65,7 +65,10 @@ export function ProjectDetailPage() {
                   {externalLabel}
                 </a>
               )}
-              <Link className="btn btn-ghost" to="/contact">
+              <Link
+                className="btn btn-ghost"
+                to={{ pathname: '/', hash: '#contact' }}
+              >
                 {ui.discussThisWork}
               </Link>
             </div>

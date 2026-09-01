@@ -3,8 +3,8 @@ import { useContent } from '../i18n/useContent'
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
-export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
-  const { profile, pageHero, ui } = useContent()
+export function Contact() {
+  const { profile, ui } = useContent()
   const t = ui.form
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
@@ -66,14 +66,7 @@ export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
   }
 
   return (
-    <section className="section contact">
-      {!hideIntro && (
-        <div className="section-head">
-          <h2>{pageHero.contact.title}</h2>
-          <p>{ui.contactDescription(profile.location)}</p>
-        </div>
-      )}
-
+    <div className="contact">
       <div className="contact-layout">
         <form className="contact-form" onSubmit={handleSubmit} noValidate>
           <input
@@ -179,6 +172,6 @@ export function Contact({ hideIntro = false }: { hideIntro?: boolean }) {
           </div>
         </aside>
       </div>
-    </section>
+    </div>
   )
 }

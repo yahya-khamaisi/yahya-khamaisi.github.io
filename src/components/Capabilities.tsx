@@ -29,18 +29,7 @@ export function Capabilities() {
   }
 
   return (
-    <section className="section capabilities" id="capabilities">
-      <Reveal>
-        <div className="section-head">
-          <div className="section-kicker">
-            <Icon name="spark" />
-            <span>{cap.kicker}</span>
-          </div>
-          <h2>{cap.title}</h2>
-          <p>{cap.description}</p>
-        </div>
-      </Reveal>
-
+    <div className="capabilities">
       <Reveal delay={80}>
         <article className="build-career">
           <header className="build-career__head">
@@ -108,6 +97,6 @@ export function Capabilities() {
           </ul>
         </article>
       </Reveal>
-    </section>
+    </div>
   )
 }

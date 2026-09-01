@@ -26,13 +26,6 @@ export type StatItem = { label: string; detail: string; icon: IconName }
 export type NavItem = { label: string; href: string }
 export type PageMetaEntry = { title: string; description: string }
 
-export type AboutEssay = {
-  kicker: string
-  title: string
-  lede: string
-  sections: { id: string; title: string; paragraphs: string[] }[]
-}
-
 export type ResearchToolkit = {
   title: string
   description: string
@@ -43,7 +36,6 @@ export type SectionCopy = { kicker: string; title: string; description: string }
 
 export type HomeCopy = {
   topPicks: SectionCopy
-  alsoFeatured: SectionCopy
   capabilities: SectionCopy & {
     cardTitle: string
     cardText: string
@@ -85,40 +77,10 @@ export const pageMeta: Record<string, PageMetaEntry> = {
     description:
       'Full-stack engineer building AI systems for production — agents, retrieval, APIs, and cloud. Six years of enterprise delivery, backed by doctoral research in applied AI.',
   },
-  '/about': {
-    title: 'About — Yahya Khamayseh',
-    description:
-      'Production delivery and PhD research, approached as one practice — systems built to hold up, and what makes them reliable studied continuously.',
-  },
   '/projects': {
     title: 'Projects — Yahya Khamayseh',
     description:
       'Selected work across enterprise AI, applied research, open source, and earlier delivery. Filter by track or search by client and stack.',
-  },
-  '/experience': {
-    title: 'Experience — Yahya Khamayseh',
-    description:
-      'Six years across five roles — AI, cloud, and API delivery in the UAE, Singapore, and Malaysia, currently owning an insurance AI portfolio at Takaful Emarat.',
-  },
-  '/education': {
-    title: 'Education — Yahya Khamayseh',
-    description:
-      'A PhD in computing focused on applied AI, an MSc in computer science, and a BSc in computer engineering — top of the department twice.',
-  },
-  '/skills': {
-    title: 'Skills — Yahya Khamayseh',
-    description:
-      'Backend and APIs, AI and retrieval, data and cloud, full stack and product — each domain linked to a project where it was applied.',
-  },
-  '/research': {
-    title: 'Research & publications — Yahya Khamayseh',
-    description:
-      'PhD research on 6G smart-factory reliability and AI-assisted resource management, with published work on URLLC, computer vision, VoIP security, and AI ethics.',
-  },
-  '/contact': {
-    title: 'Contact — Yahya Khamayseh',
-    description:
-      'Enquiries about full-stack, AI engineering, and research collaborations are welcome. Based in Dubai, UAE; remote work is open.',
   },
 }
 
@@ -147,22 +109,16 @@ export const heroStack: string[] = [
   'TensorFlow',
 ]
 
-/** Distinct from `highlights` — used only on the About page so the two pages don't echo each other. */
-export const aboutStats: StatItem[] = [
-  { label: '6 years', detail: 'production delivery across three countries', icon: 'years' },
-  { label: 'AI-first', detail: 'agents, RAG, and evaluation in real products', icon: 'ai' },
-  { label: 'PhD-backed', detail: 'doctoral research in applied AI, in progress', icon: 'research' },
-  { label: '1st in department', detail: 'top of the cohort, BSc and MSc', icon: 'education' },
-]
-
+/**
+ * Single-page sections. `href` is a bare hash — the top bar resolves it
+ * against `/` so the links also work from the standalone project routes.
+ */
 export const nav: NavItem[] = [
-  { label: 'About', href: '/about' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Experience', href: '/experience' },
-  { label: 'Education', href: '/education' },
-  { label: 'Skills', href: '/skills' },
-  { label: 'Research', href: '/research' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Work', href: '#work' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Education', href: '#education' },
+  { label: 'Contact', href: '#contact' },
 ]
 
 export type MockKind =
@@ -877,47 +833,6 @@ export function getAdjacentProjects(list: Project[], slug: string) {
   }
 }
 
-export const aboutEssay: AboutEssay = {
-  kicker: 'About',
-  title: 'How the work is done',
-  lede:
-    'The main work is full-stack engineering for AI products — agents, retrieval, APIs, and the cloud that runs them. A doctoral research track runs alongside it, where the same question is studied more slowly: what actually makes a system reliable under load.',
-  sections: [
-    {
-      id: 'who',
-      title: 'The practice',
-      paragraphs: [
-        'APIs, cloud services, admin portals, and agentic AI systems are built for enterprise clients day to day. AI is treated as a product surface with the same rigour as any other: inputs are validated, behaviour is evaluated, and failure modes are handled rather than hoped away.',
-        'A PhD in computing is also being pursued part-time, focused on applied AI and ML for reliable networked systems. It is not a second career competing for attention — it is where reliability under pressure is reasoned about without a delivery deadline, and those conclusions are carried back into the engineering work.',
-      ],
-    },
-    {
-      id: 'career',
-      title: 'What has been shipped',
-      paragraphs: [
-        'In industry, an agentic insurance-renewal platform for Takaful Emarat, airline voucher systems for Malaysia Airlines, retrieval and multi-tenant search platforms for CoolRIOTS, Azure middleware for travel content, and claims-operations portals have been led or contributed to. The same instinct is applied throughout: service boundaries are drawn clearly, inputs are validated aggressively, and AI features are made measurable rather than magical.',
-        'The research side is Factory6G — a Docker-first platform where AI-assisted scheduling and reliability are tested under simulated load, and the source of published work on applied AI, computer vision, and systems security. It informs the engineering; it is not the headline.',
-        'Taken together, one pattern is held: cloud-native runtimes are preferred, validation is treated as non-negotiable, AI is expected to survive contact with real data, and the work is documented clearly enough to be picked up by someone else.',
-      ],
-    },
-    {
-      id: 'place',
-      title: 'Based in Dubai',
-      paragraphs: [
-        'Dubai, UAE is the base, and remote collaboration is welcomed. Clients in the UAE, Malaysia, and Singapore have been served, including regulated insurance and airline environments where the details are not allowed to slip.',
-      ],
-    },
-    {
-      id: 'working',
-      title: 'Where the fit is strongest',
-      paragraphs: [
-        'The strongest work is produced on briefs where backend depth and AI product sense are both required — agents with real tool gateways, RAG systems that are evaluated rather than assumed, APIs that stay fast under load, and the judgment to tell a demo apart from something that will hold.',
-        'If any of that matches what is being built, or a role or platform is worth discussing, the contact page is the fastest way to get in touch.',
-      ],
-    },
-  ],
-}
-
 export type SkillItem = {
   label: string
   icon: IconName
@@ -992,7 +907,7 @@ export const skillGroups: SkillGroup[] = [
 export const researchToolkit: ResearchToolkit = {
   title: 'Research toolkit',
   description:
-    'Used in the doctoral track, not day-to-day delivery. Full detail lives on the research page.',
+    'Used in the doctoral track, not day-to-day delivery.',
   items: [
     'Python simulation pipelines',
     'TensorFlow / Sionna',
@@ -1013,6 +928,8 @@ export type Experience = {
   period: string
   place: string
   focus: string
+  /** Partner status of the employer, shown as a badge next to the name. */
+  partner?: string
   summary: string
   engagements?: Engagement[]
   highlights?: string[]
@@ -1024,7 +941,7 @@ export const experience: Experience[] = [
   {
     company: 'Takaful Emarat',
     role: 'Senior AI Engineer',
-    period: 'Jun 2026 — Present',
+    period: 'Apr 2026 — Present',
     place: 'Dubai, UAE',
     focus: 'Agentic AI · Azure · Insurance',
     summary:
@@ -1041,9 +958,10 @@ export const experience: Experience[] = [
   {
     company: 'Trinity Wizards',
     role: 'Senior AI / Cloud / Backend Engineer',
-    period: 'Jan 2024 — May 2026',
+    period: 'Jan 2024 — Mar 2026',
     place: 'Malaysia · Hybrid',
     focus: 'Airline platforms · Azure · APIs',
+    partner: 'AWS Platinum Partner',
     summary:
       'Client delivery for Malaysia Airlines travel and voucher platforms — Azure middleware, a NestJS admin portal, and platform stability under sustained growth.',
     engagements: [
@@ -1073,6 +991,7 @@ export const experience: Experience[] = [
     period: 'Aug 2022 — Jan 2024',
     place: 'Singapore · Hybrid',
     focus: 'RAG · Search · Secure integration',
+    partner: 'IBM Platinum Partner',
     summary:
       'Retrieval and search infrastructure that moved AI from notebooks into production — grounded LLM answers, multi-tenant search, and government-grade identity.',
     highlights: [
@@ -1288,16 +1207,6 @@ export type Ui = {
   completed: string
   gpa: string
   proficiency: (level: number) => string
-  skillsStats: {
-    domains: (n: number) => string
-    domainsDetail: string
-    tools: (n: number) => string
-    toolsDetail: string
-    expert: (n: number) => string
-    expertDetail: string
-    years: string
-    yearsDetail: string
-  }
   skillsSecondary: string
   researchWritingKicker: string
   researchWritingTitle: string
@@ -1343,12 +1252,10 @@ export type Site = {
   pageMeta: Record<string, PageMetaEntry>
   highlights: StatItem[]
   heroStack: string[]
-  aboutStats: StatItem[]
   nav: NavItem[]
   projects: Project[]
   categoryLabels: Record<ProjectCategory, string>
   projectCategories: { id: ProjectCategory | 'all'; label: string }[]
-  aboutEssay: AboutEssay
   home: HomeCopy
   pageHero: Record<PageHeroKey, PageHeroCopy>
   skillGroups: SkillGroup[]
@@ -1420,16 +1327,6 @@ export const enUi: Ui = {
   completed: 'Completed',
   gpa: 'GPA',
   proficiency: (level) => `Proficiency ${level} out of 5`,
-  skillsStats: {
-    domains: (n) => `${n} domains`,
-    domainsDetail: 'grouped by how they show up in production',
-    tools: (n) => `${n} tools & platforms`,
-    toolsDetail: 'across backend, AI, data, and full stack',
-    expert: (n) => `${n} at expert level`,
-    expertDetail: 'the tools reached for first',
-    years: '6+ years',
-    yearsDetail: 'all of it applied in production',
-  },
   skillsSecondary: 'Secondary',
   researchWritingKicker: 'Publications',
   researchWritingTitle: 'Research & writing',
@@ -1471,12 +1368,6 @@ export const enHome: HomeCopy = {
     description:
       'A production AI portal, an airline voucher platform, and the Azure middleware that keeps a travel app running — full-stack delivery at enterprise scale.',
   },
-  alsoFeatured: {
-    kicker: 'Also featured',
-    title: 'Retrieval, search, and the research platform',
-    description:
-      'The systems that turned AI prototypes into measurable production services — plus Factory6G, where the same reliability question is studied on the research side.',
-  },
   capabilities: {
     kicker: 'How it fits together',
     title: 'Full-stack AI engineering, end to end',
@@ -1501,7 +1392,7 @@ export const enPageHero: Record<PageHeroKey, PageHeroCopy> = {
     kicker: 'Career',
     title: 'Experience',
     description:
-      'Five roles, most recent first — from a first backend job to owning an insurance AI portfolio. Education is listed separately.',
+      'Five roles, most recent first — from a first backend job to owning an insurance AI portfolio.',
   },
   education: {
     kicker: 'Background',
@@ -1543,12 +1434,10 @@ export const en: Site = {
   pageMeta,
   highlights,
   heroStack,
-  aboutStats,
   nav,
   projects,
   categoryLabels,
   projectCategories,
-  aboutEssay,
   home: enHome,
   pageHero: enPageHero,
   skillGroups,

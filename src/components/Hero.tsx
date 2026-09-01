@@ -26,17 +26,7 @@ export function Hero({ compact = false }: HeroProps) {
             </Link>
           </Magnetic>
           <Magnetic strength={12}>
-            <a
-              className="btn btn-ghost"
-              href={profile.cvUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {ui.downloadCv}
-            </a>
-          </Magnetic>
-          <Magnetic strength={12}>
-            <Link className="btn btn-ghost" to="/contact">
+            <Link className="btn btn-ghost" to={{ hash: '#contact' }}>
               {ui.contact}
             </Link>
           </Magnetic>
