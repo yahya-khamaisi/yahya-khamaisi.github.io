@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type MouseEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useContent } from '../i18n/useContent'
 import { useScrollSpy } from '../hooks/useScrollSpy'
 import { useSettings } from '../settings/SettingsProvider'
+import { scrollToSection } from '../lib/scroll'
 import { Icon } from './Icon'
 
 function GearIcon() {
@@ -52,6 +53,17 @@ export function Header() {
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
+  // On the one page, scroll straight to the section — no URL change, so a
+  // later reload/reopen still starts at the top. From another route, let
+  // the Link navigate home carrying the target in router state.
+  function handleSectionClick(event: MouseEvent, id: string) {
+    setOpen(false)
+    if (onHome) {
+      event.preventDefault()
+      scrollToSection(id)
+    }
+  }
+
   return (
     <header className={`topbar${open ? ' is-open' : ''}`}>
       <div className="topbar__inner">
@@ -66,7 +78,9 @@ export function Header() {
             return (
               <Link
                 key={item.href}
-                to={{ pathname: '/', hash: item.href }}
+                to="/"
+                state={{ section: id }}
+                onClick={(event) => handleSectionClick(event, id)}
                 className={activeId === id ? 'is-active' : undefined}
                 aria-current={activeId === id ? 'true' : undefined}
               >
@@ -114,9 +128,10 @@ export function Header() {
             return (
               <Link
                 key={item.href}
-                to={{ pathname: '/', hash: item.href }}
+                to="/"
+                state={{ section: id }}
                 className={activeId === id ? 'is-active' : undefined}
-                onClick={() => setOpen(false)}
+                onClick={(event) => handleSectionClick(event, id)}
               >
                 {item.label}
               </Link>

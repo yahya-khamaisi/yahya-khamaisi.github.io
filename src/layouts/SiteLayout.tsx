@@ -1,5 +1,5 @@
-import { Outlet, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { SettingsPanel } from '../components/SettingsPanel'
@@ -7,42 +7,47 @@ import { PhysicsField } from '../components/PhysicsField'
 import { ThemeProvider } from '../theme/ThemeProvider'
 import { useDocumentMeta } from '../hooks/useDocumentMeta'
 import { useUi } from '../i18n/useContent'
-
-/** Scroll to the hash target if there is one, otherwise to the very top. */
-function scrollToTarget(hash: string) {
-  if (!hash) {
-    window.scrollTo(0, 0)
-    return () => {}
-  }
-  const id = decodeURIComponent(hash.slice(1))
-  let tries = 0
-  let timer = 0
-  const jump = () => {
-    const el = document.getElementById(id)
-    if (el) {
-      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize)
-      const top =
-        el.getBoundingClientRect().top + window.scrollY - (rem * 4 + 8)
-      window.scrollTo(0, top)
-      return
-    }
-    if (tries++ < 20) timer = window.setTimeout(jump, 50)
-  }
-  jump()
-  return () => window.clearTimeout(timer)
-}
+import { scrollToSection } from '../lib/scroll'
 
 /**
- * On navigation: jump to the hash target (the one-page sections) or to the
- * top (the project routes). Also re-asserts position after the browser's
- * own scroll restoration — Safari otherwise reopens the page (fresh load
- * or bfcache) partway down, past the hero.
+ * Scroll behaviour for the one-page layout.
+ *
+ * In-app section links carry the target in router state, never in the URL,
+ * and any hash from a deep link / legacy redirect is stripped once handled.
+ * So the visible URL stays `/` and a reload or tab-reopen always starts at
+ * the top — never parked on a section past the hero.
  */
 function RouteScroll() {
-  const { pathname, hash, key } = useLocation()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { pathname, hash, key } = location
+  const section = (location.state as { section?: string } | null)?.section
+  const cleaningUp = useRef(false)
 
   useEffect(() => {
-    // Stop re-asserting once the visitor takes the wheel.
+    // The replace() below that strips a hash/state re-fires this effect —
+    // skip that pass so we don't yank the page back to the top.
+    if (cleaningUp.current) {
+      cleaningUp.current = false
+      return
+    }
+
+    const target = section || (hash ? decodeURIComponent(hash.slice(1)) : '')
+
+    if (target) {
+      const cancel = scrollToSection(target)
+      const strip = window.setTimeout(() => {
+        cleaningUp.current = true
+        navigate(pathname + location.search, { replace: true, state: null })
+      }, 700)
+      return () => {
+        cancel()
+        window.clearTimeout(strip)
+      }
+    }
+
+    // No target — top. Re-assert after the browser's own restoration,
+    // but stop the moment the visitor scrolls.
     let userMoved = false
     const mark = () => {
       userMoved = true
@@ -51,27 +56,25 @@ function RouteScroll() {
     window.addEventListener('touchmove', mark, { passive: true, once: true })
     window.addEventListener('keydown', mark, { once: true })
 
-    const apply = () => {
-      if (!userMoved) scrollToTarget(hash)
+    const top = () => {
+      if (!userMoved) window.scrollTo(0, 0)
     }
-    const cancel = scrollToTarget(hash)
-    // Fresh loads: Safari can restore a stale offset a beat after mount.
-    const raf = requestAnimationFrame(apply)
-    const late = window.setTimeout(apply, 150)
+    top()
+    const raf = requestAnimationFrame(top)
+    const late = window.setTimeout(top, 150)
     return () => {
-      cancel()
       cancelAnimationFrame(raf)
       window.clearTimeout(late)
       window.removeEventListener('wheel', mark)
       window.removeEventListener('touchmove', mark)
       window.removeEventListener('keydown', mark)
     }
-  }, [pathname, hash, key])
+  }, [pathname, hash, key, section, location.search, navigate])
 
-  // bfcache restore (tab switch / reopen) does not remount React.
+  // bfcache / session restore doesn't remount React — URLs are clean, so top.
   useEffect(() => {
     const onPageShow = (event: PageTransitionEvent) => {
-      if (event.persisted) scrollToTarget(window.location.hash)
+      if (event.persisted) window.scrollTo(0, 0)
     }
     window.addEventListener('pageshow', onPageShow)
     return () => window.removeEventListener('pageshow', onPageShow)

@@ -67,7 +67,8 @@ export function ProjectDetailPage() {
               )}
               <Link
                 className="btn btn-ghost"
-                to={{ pathname: '/', hash: '#contact' }}
+                to="/"
+                state={{ section: 'contact' }}
               >
                 {ui.discussThisWork}
               </Link>

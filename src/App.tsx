@@ -9,11 +9,11 @@ import './App.css'
 
 /** Old multi-page routes now map to sections of the single page. */
 const legacyRedirects: Record<string, string> = {
-  '/experience': '/#experience',
-  '/education': '/#education',
-  '/skills': '/#skills',
-  '/research': '/#education',
-  '/contact': '/#contact',
+  '/experience': 'experience',
+  '/education': 'education',
+  '/skills': 'skills',
+  '/research': 'education',
+  '/contact': 'contact',
 }
 
 export default function App() {
@@ -26,11 +26,13 @@ export default function App() {
               <Route index element={<HomePage />} />
               <Route path="projects" element={<ProjectsPage />} />
               <Route path="projects/:slug" element={<ProjectDetailPage />} />
-              {Object.entries(legacyRedirects).map(([from, to]) => (
+              {Object.entries(legacyRedirects).map(([from, section]) => (
                 <Route
                   key={from}
                   path={from}
-                  element={<Navigate to={to} replace />}
+                  element={
+                    <Navigate to="/" state={{ section }} replace />
+                  }
                 />
               ))}
               <Route path="*" element={<Navigate to="/" replace />} />
