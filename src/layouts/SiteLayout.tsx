@@ -17,7 +17,10 @@ function RouteScroll() {
   useEffect(() => {
     if (!hash) {
       window.scrollTo(0, 0)
-      return
+      // Guard against a late layout shift (fonts/images) leaving the
+      // page scrolled after the initial jump.
+      const raf = requestAnimationFrame(() => window.scrollTo(0, 0))
+      return () => cancelAnimationFrame(raf)
     }
 
     const id = decodeURIComponent(hash.slice(1))

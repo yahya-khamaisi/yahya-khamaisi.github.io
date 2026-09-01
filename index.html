@@ -24,6 +24,11 @@
     />
     <title>Yahya Khamayseh</title>
     <script>
+      // Own scroll position — Safari otherwise restores a stale offset on
+      // reload / tab reopen and the page opens mid-way down.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+    </script>
+    <script>
       // Single Page Apps for GitHub Pages — restore the path that 404.html encoded.
       // https://github.com/rafgraph/spa-github-pages  (MIT)
       ;(function (l) {
