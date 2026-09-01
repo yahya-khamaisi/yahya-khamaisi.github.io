@@ -41,7 +41,7 @@ function readStoredPreference(): ThemePreference {
   } catch {
     /* ignore */
   }
-  return 'dark'
+  return 'system'
 }
 
 function applyTheme(preference: ThemePreference, resolved: ResolvedTheme) {

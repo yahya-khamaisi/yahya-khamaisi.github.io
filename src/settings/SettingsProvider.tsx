@@ -41,11 +41,12 @@ function read<T extends string>(key: string, allowed: T[], fallback: T): T {
 
 function apply(fontSize: FontSize, typeface: Typeface) {
   const root = document.documentElement
-  // `medium` / `editorial` are the CSS defaults — no attribute needed.
+  // `medium` is the CSS default text size — no attribute needed.
   if (fontSize === 'medium') delete root.dataset.fontSize
   else root.dataset.fontSize = fontSize
-  if (typeface === 'editorial') delete root.dataset.font
-  else root.dataset.font = typeface
+  // Typeface is always stamped; `modern` is the default the pre-paint
+  // script also assumes.
+  root.dataset.font = typeface
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
@@ -53,9 +54,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     typeof window === 'undefined' ? 'medium' : read(SIZE_KEY, SIZES, 'medium'),
   )
   const [typeface, setTypefaceState] = useState<Typeface>(() =>
-    typeof window === 'undefined'
-      ? 'editorial'
-      : read(FACE_KEY, FACES, 'editorial'),
+    typeof window === 'undefined' ? 'modern' : read(FACE_KEY, FACES, 'modern'),
   )
   const [isOpen, setIsOpen] = useState(false)
 

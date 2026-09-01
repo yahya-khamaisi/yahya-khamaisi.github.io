@@ -1278,6 +1278,9 @@ const ui: Ui = {
     langEnglish: 'English',
     langArabic: 'العربية',
     theme: 'المظهر',
+    themeSystem: 'النظام',
+    themeLight: 'فاتح',
+    themeDark: 'داكن',
     close: 'إغلاق',
   },
 }

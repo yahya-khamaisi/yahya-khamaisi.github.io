@@ -133,9 +133,9 @@ export function SettingsPanel() {
           value={preference}
           onChange={setPreference}
           options={[
-            { value: 'system', label: ui.themeShort.system },
-            { value: 'light', label: ui.themeShort.light },
-            { value: 'dark', label: ui.themeShort.dark },
+            { value: 'system', label: t.themeSystem },
+            { value: 'light', label: t.themeLight },
+            { value: 'dark', label: t.themeDark },
           ]}
         />
       </div>

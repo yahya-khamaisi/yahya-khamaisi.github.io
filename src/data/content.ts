@@ -1252,6 +1252,9 @@ export type Ui = {
     langEnglish: string
     langArabic: string
     theme: string
+    themeSystem: string
+    themeLight: string
+    themeDark: string
     close: string
   }
 }
@@ -1391,6 +1394,9 @@ export const enUi: Ui = {
     langEnglish: 'English',
     langArabic: 'العربية',
     theme: 'Appearance',
+    themeSystem: 'System',
+    themeLight: 'Light',
+    themeDark: 'Dark',
     close: 'Close',
   },
 }

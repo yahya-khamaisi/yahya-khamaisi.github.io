@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { useContent } from '../i18n/useContent'
 import { Icon } from './Icon'
 import { Magnetic } from './Magnetic'
@@ -19,28 +18,6 @@ export function Hero({ compact = false }: HeroProps) {
         <h1 className="brand">{profile.name}</h1>
         <p className="hero-tagline">{profile.headline}</p>
         <p className="lede">{profile.summary}</p>
-        <div className="cta-row">
-          <Magnetic strength={12}>
-            <Link className="btn btn-primary" to="/projects">
-              {ui.seeProjects}
-            </Link>
-          </Magnetic>
-          <Magnetic strength={12}>
-            <Link className="btn btn-ghost" to={{ hash: '#contact' }}>
-              {ui.contact}
-            </Link>
-          </Magnetic>
-          <Magnetic strength={12}>
-            <a
-              className="btn btn-ghost"
-              href={profile.cvUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {ui.downloadCv}
-            </a>
-          </Magnetic>
-        </div>
         <ul className="hero-stack" aria-label="Core stack">
           {heroStack.map((tool) => (
             <li key={tool}>{tool}</li>

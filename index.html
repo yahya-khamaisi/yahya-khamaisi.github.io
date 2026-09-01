@@ -68,7 +68,7 @@
           var pref =
             stored === 'light' || stored === 'dark' || stored === 'system'
               ? stored
-              : 'dark'
+              : 'system'
           var dark =
             pref === 'dark' ||
             (pref === 'system' &&
@@ -87,8 +87,8 @@
           if (s === 'small' || s === 'large')
             document.documentElement.dataset.fontSize = s
           var f = localStorage.getItem('font-family-preference')
-          if (f === 'modern' || f === 'compact')
-            document.documentElement.dataset.font = f
+          document.documentElement.dataset.font =
+            f === 'editorial' || f === 'compact' ? f : 'modern'
         } catch (e) {}
       })()
     </script>
