@@ -47,12 +47,13 @@ export function PhysicsField() {
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2)
-      w = window.innerWidth
-      h = window.innerHeight
+      // Measure the element itself — reading window.innerWidth can inflate
+      // the canvas on iOS Safari and drag the whole page wider with it.
+      const rect = canvas!.getBoundingClientRect()
+      w = Math.round(rect.width) || document.documentElement.clientWidth
+      h = Math.round(rect.height) || document.documentElement.clientHeight
       canvas!.width = Math.floor(w * dpr)
       canvas!.height = Math.floor(h * dpr)
-      canvas!.style.width = `${w}px`
-      canvas!.style.height = `${h}px`
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)
 
       const count = Math.min(72, Math.floor((w * h) / 22000))

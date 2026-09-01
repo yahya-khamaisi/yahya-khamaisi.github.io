@@ -118,11 +118,19 @@
   font-size: clamp(16.5px, 15.7px + 0.26vw, 18.5px);
 }
 
+html {
+  /* iOS Safari otherwise inflates text in narrow columns ("font boosting"),
+     which pushes containers wider than the screen. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Nothing may cause a sideways scroll — `clip` (not `hidden`) leaves
+     the sticky header working and doesn't make this a scroll container. */
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   min-width: 320px;
-  /* Nothing may cause a sideways scroll — `clip` (not `hidden`) leaves
-     the sticky header working and doesn't make body a scroll container. */
   overflow-x: clip;
   color: var(--ink);
   background: var(--bg);
@@ -135,6 +143,8 @@ body {
 
 #root {
   min-height: 100svh;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 a {
