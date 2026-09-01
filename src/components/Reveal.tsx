@@ -23,29 +23,37 @@ export function Reveal({
     const el = ref.current
     if (!el) return
 
+    const reveal = () => el.classList.add('is-visible')
+
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      el.classList.add('is-visible')
+      reveal()
+      return
+    }
+
+    // Already on screen at mount (including when the page opens scrolled) —
+    // show it now rather than waiting on the observer.
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      reveal()
       return
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.classList.add('is-visible')
-          observer.unobserve(el)
+          reveal()
+          observer.disconnect()
         }
       },
       { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
     )
-
     observer.observe(el)
 
-    // Safety net: never leave content invisible if the observer never fires
-    // (tab opened in the background, layout quirks, very tall elements).
+    // Safety net: never leave content invisible if the observer never fires.
     const failSafe = window.setTimeout(() => {
-      el.classList.add('is-visible')
+      reveal()
       observer.disconnect()
-    }, 2500)
+    }, 1600)
 
     return () => {
       window.clearTimeout(failSafe)

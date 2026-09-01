@@ -27,6 +27,11 @@
       // Own scroll position — Safari otherwise restores a stale offset on
       // reload / tab reopen and the page opens mid-way down.
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+      // bfcache / session restore fires pageshow with persisted=true after
+      // the browser has already re-applied its remembered scroll.
+      window.addEventListener('pageshow', function (e) {
+        if (e.persisted && !location.hash) window.scrollTo(0, 0)
+      })
     </script>
     <script>
       // Single Page Apps for GitHub Pages — restore the path that 404.html encoded.

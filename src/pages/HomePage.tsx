@@ -9,7 +9,6 @@ import { Research } from '../components/Research'
 import { Contact } from '../components/Contact'
 import { ProjectCard } from '../components/ProjectCard'
 import { Icon } from '../components/Icon'
-import { Reveal } from '../components/Reveal'
 import { featuredProjects } from '../data/content'
 import { useContent } from '../i18n/useContent'
 
@@ -19,9 +18,8 @@ export function HomePage() {
 
   return (
     <>
-      <Reveal>
-        <Hero />
-      </Reveal>
+      {/* Hero renders immediately — no reveal gate on the first screen. */}
+      <Hero />
 
       <section id="work" className="section">
         <SectionHead
