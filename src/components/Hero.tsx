@@ -1,4 +1,5 @@
 import { useContent } from '../i18n/useContent'
+import { useTheme } from '../theme/ThemeProvider'
 import { Icon } from './Icon'
 import { Magnetic } from './Magnetic'
 
@@ -8,6 +9,7 @@ type HeroProps = {
 
 export function Hero({ compact = false }: HeroProps) {
   const { profile, highlights, heroStack, ui } = useContent()
+  const { resolved } = useTheme()
   return (
     <section className={`hero${compact ? ' hero--compact' : ''}`}>
       <div className="hero-copy">
@@ -29,11 +31,16 @@ export function Hero({ compact = false }: HeroProps) {
         <div className="hero-portrait">
           <img
             className="hero-photo"
-            src={profile.photo}
+            src={resolved === 'light' ? profile.photoLight : profile.photo}
             alt={profile.photoAlt}
             width={420}
             height={420}
             fetchPriority="high"
+            onError={(e) => {
+              // Fall back to the default portrait if the light variant is missing
+              const img = e.currentTarget
+              if (!img.src.endsWith(profile.photo)) img.src = profile.photo
+            }}
           />
         </div>
       </Magnetic>

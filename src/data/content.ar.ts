@@ -29,6 +29,7 @@ const profile: Site['profile'] = {
   github: 'https://github.com/yahya-khamaisi',
   linkedin: 'https://www.linkedin.com/in/yahya-khamaisi/',
   photo: '/yahya.jpg',
+  photoLight: '/yahya-light.jpg',
   photoAlt: 'صورة ليحيى خمايسة',
   cvUrl: '/Yahya-Khamayseh-CV.pdf',
   summary:

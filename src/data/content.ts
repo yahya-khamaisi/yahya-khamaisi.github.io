@@ -17,6 +17,7 @@ export type Profile = {
   github: string
   linkedin: string
   photo: string
+  photoLight: string
   photoAlt: string
   cvUrl: string
   summary: string
@@ -63,6 +64,7 @@ export const profile: Profile = {
   github: 'https://github.com/yahya-khamaisi',
   linkedin: 'https://www.linkedin.com/in/yahya-khamaisi/',
   photo: '/yahya.jpg',
+  photoLight: '/yahya-light.jpg',
   photoAlt: 'Portrait of Yahya Khamayseh',
   /** drop the PDF at public/Yahya-Khamayseh-CV.pdf */
   cvUrl: '/Yahya-Khamayseh-CV.pdf',
