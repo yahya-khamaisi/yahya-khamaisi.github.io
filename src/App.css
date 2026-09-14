@@ -651,10 +651,13 @@ main:focus {
 .hero-portrait {
   /* Edges dissolve into the page instead of sitting in a card — same
      treatment at every breakpoint. */
+  /* `closest-side` guarantees full transparency before any edge is
+     reached, so no photo border survives in either theme. */
   --portrait-feather: radial-gradient(
-    78% 78% at 54% 42%,
-    #000 56%,
-    rgba(0, 0, 0, 0.5) 79%,
+    closest-side at 50% 48%,
+    #000 38%,
+    rgba(0, 0, 0, 0.75) 58%,
+    rgba(0, 0, 0, 0.3) 80%,
     transparent 100%
   );
   width: clamp(12rem, 26vw, 21rem);
@@ -675,6 +678,19 @@ main:focus {
 
 [data-theme='light'] .hero-photo {
   filter: saturate(0.9);
+}
+
+/* The warm wall contrasts more with the light page than the dark photo
+   does with the dark page, so fade it out sooner and more gradually. */
+[data-theme='light'] .hero-portrait {
+  --portrait-feather: radial-gradient(
+    closest-side at 50% 48%,
+    #000 30%,
+    rgba(0, 0, 0, 0.7) 48%,
+    rgba(0, 0, 0, 0.3) 68%,
+    rgba(0, 0, 0, 0.08) 84%,
+    transparent 96%
+  );
 }
 
 .highlight-strip {
