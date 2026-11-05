@@ -1,45 +1,34 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { LangProvider } from './i18n/LangProvider'
-import { SettingsProvider } from './settings/SettingsProvider'
 import { SiteLayout } from './layouts/SiteLayout'
 import { HomePage } from './pages/HomePage'
 import { ProjectsPage } from './pages/ProjectsPage'
 import { ProjectDetailPage } from './pages/ProjectDetailPage'
+import { ExperiencePage } from './pages/ExperiencePage'
+import { SkillsPage } from './pages/SkillsPage'
+import { EducationPage } from './pages/EducationPage'
+import { ResearchPage } from './pages/ResearchPage'
+import { ContactPage } from './pages/ContactPage'
 import './App.css'
-
-/** Old multi-page routes now map to sections of the single page. */
-const legacyRedirects: Record<string, string> = {
-  '/experience': 'experience',
-  '/education': 'education',
-  '/skills': 'skills',
-  '/research': 'education',
-  '/contact': 'contact',
-}
 
 export default function App() {
   return (
     <LangProvider>
-      <SettingsProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<SiteLayout />}>
-              <Route index element={<HomePage />} />
-              <Route path="projects" element={<ProjectsPage />} />
-              <Route path="projects/:slug" element={<ProjectDetailPage />} />
-              {Object.entries(legacyRedirects).map(([from, section]) => (
-                <Route
-                  key={from}
-                  path={from}
-                  element={
-                    <Navigate to="/" state={{ section }} replace />
-                  }
-                />
-              ))}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </SettingsProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<SiteLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="projects" element={<ProjectsPage />} />
+            <Route path="projects/:slug" element={<ProjectDetailPage />} />
+            <Route path="experience" element={<ExperiencePage />} />
+            <Route path="skills" element={<SkillsPage />} />
+            <Route path="education" element={<EducationPage />} />
+            <Route path="research" element={<ResearchPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </LangProvider>
   )
 }

@@ -7,6 +7,7 @@ import {
 import { projectDiagrams } from './diagrams'
 import type { Diagram } from './diagrams'
 import type { BrandKey } from './brands'
+import { macEn, type MacCopy } from './mac'
 
 export type Profile = {
   name: string
@@ -1257,6 +1258,7 @@ export type Site = {
   systems: SystemsContent
   diagrams: Record<string, Diagram>
   ui: Ui
+  mac: MacCopy
 }
 
 export const enUi: Ui = {
@@ -1464,4 +1466,5 @@ export const en: Site = {
   },
   diagrams: enDiagrams,
   ui: enUi,
+  mac: macEn,
 }

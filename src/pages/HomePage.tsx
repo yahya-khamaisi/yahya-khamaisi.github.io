@@ -1,122 +1,119 @@
 import { Link } from 'react-router-dom'
-import { Hero } from '../components/Hero'
-import { SectionHead } from '../components/SectionHead'
-import { Capabilities } from '../components/Capabilities'
-import { Experience } from '../components/Experience'
-import { Skills } from '../components/Skills'
-import { Education } from '../components/Education'
-import { Research } from '../components/Research'
-import { Contact } from '../components/Contact'
-import { ProjectCard } from '../components/ProjectCard'
-import { Icon } from '../components/Icon'
 import { featuredProjects } from '../data/content'
 import { useContent } from '../i18n/useContent'
+import { useTheme } from '../theme/ThemeProvider'
+import { Pane } from '../components/Shell'
+import { Sym } from '../components/Sym'
+import { Thumb } from '../components/Thumb'
+import { useSpotlight } from '../components/Spotlight'
 
 export function HomePage() {
-  const { projects, ui, home, pageHero, profile, researchToolkit } = useContent()
-  const topPicks = featuredProjects(projects).slice(0, 3)
+  const { profile, projects, categoryLabels, ui, mac } = useContent()
+  const { resolved } = useTheme()
+  const { open } = useSpotlight()
+  const featured = featuredProjects(projects).slice(0, 3)
+  const more = mac.sections.filter((s) => s.id === 'education' || s.id === 'research')
 
   return (
-    <>
-      {/* Hero renders immediately — no reveal gate on the first screen. */}
-      <Hero />
-
-      <section id="work" className="section">
-        <SectionHead
-          kicker={home.topPicks.kicker}
-          icon="work"
-          title={home.topPicks.title}
-          description={home.topPicks.description}
-          action={
-            <Link className="btn btn-ghost" to="/projects">
-              {ui.viewAllProjects}
+    <Pane
+      title={mac.sections[0].label}
+      heading={false}
+      actions={
+        <>
+          <button type="button" className="g-field g-field--button" onClick={open}>
+            <Sym name="search" />
+            <span>{mac.t.search}</span>
+            <kbd>⌘K</kbd>
+          </button>
+          <Link className="g-btn tint" to="/contact">
+            <Sym name="mail" />
+            {ui.contact}
+          </Link>
+        </>
+      }
+    >
+      <div className="about">
+        <img
+          className="about-avatar"
+          src={resolved === 'light' ? profile.photoLight : profile.photo}
+          alt={profile.photoAlt}
+          width={168}
+          height={168}
+          fetchPriority="high"
+          onError={(e) => {
+            const img = e.currentTarget
+            if (!img.src.endsWith(profile.photo)) img.src = profile.photo
+          }}
+        />
+        <div>
+          <p className="status-pill">
+            <i aria-hidden="true" />
+            {mac.hero.status}
+          </p>
+          <h1 className="about-title">
+            {mac.hero.before}
+            <span>{mac.hero.em}</span>
+            {mac.hero.after}
+          </h1>
+          <p className="about-lede">{mac.hero.lede}</p>
+          <div className="btn-row">
+            <Link className="g-btn tint" to="/projects">
+              {mac.t.seeMyWork}
             </Link>
-          }
-        />
-        <ul className="project-grid project-grid--top">
-          {topPicks.map((project, index) => (
-            <ProjectCard
-              key={project.slug}
-              project={project}
-              index={index}
-              size="lg"
-            />
-          ))}
-        </ul>
-      </section>
-
-      <section id="experience" className="section">
-        <SectionHead
-          kicker={pageHero.experience.kicker}
-          icon="experience"
-          title={pageHero.experience.title}
-          description={pageHero.experience.description}
-        />
-        <Experience />
-      </section>
-
-      <section id="skills" className="section">
-        <SectionHead
-          kicker={home.capabilities.kicker}
-          icon="spark"
-          title={home.capabilities.title}
-          description={home.capabilities.description}
-        />
-        <Capabilities />
-
-        <SectionHead
-          kicker={pageHero.skills.kicker}
-          icon="skills"
-          title={pageHero.skills.title}
-          description={pageHero.skills.description}
-          variant="sub"
-        />
-        <Skills />
-
-        <div className="research-toolkit">
-          <div>
-            <div className="section-kicker">
-              <Icon name="research" />
-              <span>{ui.skillsSecondary}</span>
-            </div>
-            <h3>{researchToolkit.title}</h3>
-            <p>{researchToolkit.description}</p>
+            <a className="g-btn" href={profile.cvUrl} target="_blank" rel="noreferrer">
+              <Sym name="down" />
+              {ui.downloadCv}
+            </a>
           </div>
-          <ul className="research-toolkit__list">
-            {researchToolkit.items.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
         </div>
-      </section>
+      </div>
 
-      <section id="education" className="section">
-        <SectionHead
-          kicker={pageHero.education.kicker}
-          icon="education"
-          title={pageHero.education.title}
-          description={pageHero.education.description}
-        />
-        <Education />
+      <ul className="proof">
+        {mac.proof.map((item) => (
+          <li key={item.label} className="tile">
+            <span className="tile-ic" aria-hidden="true">
+              <Sym name={item.icon} />
+            </span>
+            <b>{item.value}</b>
+            <span>{item.label}</span>
+          </li>
+        ))}
+      </ul>
 
-        <SectionHead
-          kicker={ui.publicationsKicker}
-          icon="paper"
-          title={ui.publicationsTitle}
-          description={ui.publicationsDesc}
-          variant="sub"
-        />
-        <Research />
-      </section>
+      <div className="row-head">
+        <h2>{mac.t.featuredWork}</h2>
+        <Link to="/projects">{mac.t.showAll(projects.length)}</Link>
+      </div>
+      <ul className="feat">
+        {featured.map((p) => (
+          <li key={p.slug}>
+            <Link className="feat-card" to={`/projects/${p.slug}`}>
+              <Thumb project={p} />
+              <span className="feat-meta">
+                <b>{p.title}</b>
+                <span>
+                  {categoryLabels[p.category]} · {p.period}
+                </span>
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
 
-      <section id="contact" className="section section--flush">
-        <SectionHead
-          icon="mail"
-          title={pageHero.contact.title}
-          description={ui.contactDescription(profile.location)}
-        />
-        <Contact />
-      </section>
-    </>
+      <nav className="more-list" aria-label={mac.t.more}>
+        <h2>{mac.t.more}</h2>
+        <div className="group">
+          {more.map((s) => (
+            <Link key={s.id} className="group-row" to={s.to}>
+              <span className="row-ic">
+                <Sym name={s.icon} />
+              </span>
+              <span className="grow">{s.label}</span>
+              <Sym name="chevron" className="chev" />
+            </Link>
+          ))}
+        </div>
+      </nav>
+    </Pane>
   )
 }

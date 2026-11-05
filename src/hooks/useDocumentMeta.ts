@@ -15,19 +15,33 @@ function setMeta(selector: string, content: string) {
  */
 export function useDocumentMeta() {
   const { pathname } = useLocation()
-  const { pageMeta, profile } = useContent()
+  const { pageMeta, profile, mac, projects, pageHero } = useContent()
   const { lang } = useLang()
 
   useEffect(() => {
     const fallback = pageMeta['/']
-    const meta = pageMeta[pathname] ?? fallback
-    const isKnown = pathname in pageMeta
-    const title = isKnown ? meta.title : profile.name
+    let title = fallback.title
+    let description = fallback.description
+
+    const slug = pathname.match(/^\/projects\/([^/]+)/)?.[1]
+    const project = slug ? projects.find((p) => p.slug === slug) : undefined
+    const section = mac.sections.find((s) => s.to === pathname && s.to !== '/')
+
+    if (pathname in pageMeta) {
+      ;({ title, description } = pageMeta[pathname])
+    } else if (project) {
+      title = `${project.title} — ${profile.name}`
+      description = project.blurb
+    } else if (section) {
+      title = `${section.label} — ${profile.name}`
+      const hero = pageHero[section.id as keyof typeof pageHero]
+      if (hero) description = hero.description
+    }
 
     document.title = title
-    setMeta('meta[name="description"]', meta.description)
+    setMeta('meta[name="description"]', description)
     setMeta('meta[property="og:title"]', title)
-    setMeta('meta[property="og:description"]', meta.description)
+    setMeta('meta[property="og:description"]', description)
     document.documentElement.lang = lang
-  }, [pathname, pageMeta, profile.name, lang])
+  }, [pathname, pageMeta, profile.name, lang, mac, projects, pageHero])
 }

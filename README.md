@@ -8,7 +8,8 @@ Personal site: selected projects, skills, experience, and research.
 
 - Vite + React + TypeScript
 - React Router (with a GitHub Pages SPA fallback)
-- Plain CSS (no UI kit)
+- Plain CSS (no UI kit), styled as a macOS 27 desktop: menu bar, Liquid Glass
+  windows, Dock and Spotlight (⌘K); phones get an iOS-style tab bar
 
 ## Develop
 
@@ -27,7 +28,8 @@ npm run preview
 ## Content
 
 Update copy in `src/data/content.ts` (profile, projects, skills, experience,
-publications) and `src/data/systems.ts` (the capability graph). Per-route
+publications), the Arabic mirror in `src/data/content.ar.ts`, and the shell
+copy, hero, proof numbers and case studies in `src/data/mac.ts` and `src/data/systems.ts` (the capability graph). Per-route
 `<title>` / meta lives in `pageMeta` in `content.ts`.
 
 The CV PDF at `public/Yahya-Khamayseh-CV.pdf` is generated from the same content

@@ -4,6 +4,7 @@
  * Draft translation in Modern Standard Arabic; tech terms and brand names
  * are kept in Latin script on purpose. Review welcome.
  */
+import { macAr } from './mac'
 import {
   categoryLabels as enCategoryLabels,
   skillTools,
@@ -1245,4 +1246,5 @@ export const ar: Site = {
   systems: arSystems,
   diagrams,
   ui,
+  mac: macAr,
 }
