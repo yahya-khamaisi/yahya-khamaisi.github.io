@@ -4,6 +4,7 @@ import {
   type ElementType,
   type ReactNode,
   type CSSProperties,
+  type HTMLAttributes,
 } from 'react'
 
 export function Reveal({
@@ -11,12 +12,13 @@ export function Reveal({
   className = '',
   delay = 0,
   as: Tag = 'div',
+  ...rest
 }: {
   children: ReactNode
   className?: string
   delay?: number
   as?: ElementType
-}) {
+} & Omit<HTMLAttributes<HTMLElement>, 'className' | 'children'>) {
   const ref = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export function Reveal({
   const style = { transitionDelay: `${delay}ms` } as CSSProperties
 
   return (
-    <Tag ref={ref} className={`reveal ${className}`} style={style}>
+    <Tag ref={ref} className={`reveal ${className}`.trim()} style={style} {...rest}>
       {children}
     </Tag>
   )

@@ -1,4 +1,5 @@
 import { en, type Site } from '../data/content'
+import { copy, type Copy } from '../data/site'
 import { ar } from '../data/content.ar'
 import { useLang } from './LangProvider'
 
@@ -16,4 +17,10 @@ export function useUi() {
 /** Bundle for a given language, outside of React (e.g. pre-render helpers). */
 export function contentFor(lang: 'en' | 'ar'): Site {
   return lang === 'ar' ? ar : en
+}
+
+/** Layout copy (section text, demo script) for the active language. */
+export function useCopy(): Copy {
+  const { lang } = useLang()
+  return copy[lang]
 }

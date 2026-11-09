@@ -1,179 +1,80 @@
-import { useEffect, useState, type MouseEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useContent } from '../i18n/useContent'
+import { useContent, useCopy } from '../i18n/useContent'
+import { useLang } from '../i18n/LangProvider'
+import { useTheme } from '../theme/ThemeProvider'
 import { useScrollSpy } from '../hooks/useScrollSpy'
-import { useSettings } from '../settings/SettingsProvider'
-import { scrollToSection } from '../lib/scroll'
-import { Icon } from './Icon'
 
-function GearIcon() {
+function ThemeIcon({ mode }: { mode: 'system' | 'light' | 'dark' }) {
+  if (mode === 'light') {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </svg>
+    )
+  }
+  if (mode === 'dark') {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+      </svg>
+    )
+  }
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18">
-      <circle
-        cx="12"
-        cy="12"
-        r="3.2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.75"
-      />
-      <path
-        d="M12 2.6l1.5 2.3 2.7-.7.6 2.7 2.7.9-.9 2.6.9 2.6-2.7.9-.6 2.7-2.7-.7L12 21.4l-1.5-2.3-2.7.7-.6-2.7-2.7-.9.9-2.6-.9-2.6 2.7-.9.6-2.7 2.7.7z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="13" rx="2" />
+      <path d="M8 21h8M12 17v4" />
     </svg>
   )
 }
 
 export function Header() {
-  const { profile, nav, ui } = useContent()
-  const { openSettings } = useSettings()
-  const [open, setOpen] = useState(false)
-  const location = useLocation()
-  const onHome = location.pathname === '/'
-
-  const sectionIds = nav.map((item) => item.href.replace('#', ''))
-  const spyId = useScrollSpy(sectionIds)
-  const activeId = onHome ? spyId : ''
-
-  // Close the mobile menu on route change and on Escape.
-  useEffect(() => {
-    setOpen(false)
-  }, [location])
-
-  useEffect(() => {
-    if (!open) return
-    function onKey(event: KeyboardEvent) {
-      if (event.key === 'Escape') setOpen(false)
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [open])
-
-  // On the one page, scroll straight to the section — no URL change, so a
-  // later reload/reopen still starts at the top. From another route, let
-  // the Link navigate home carrying the target in router state.
-  function handleSectionClick(event: MouseEvent, id: string) {
-    setOpen(false)
-    if (onHome) {
-      event.preventDefault()
-      scrollToSection(id)
-    }
-  }
+  const { profile, ui } = useContent()
+  const c = useCopy()
+  const { toggleLang } = useLang()
+  const { preference, cyclePreference } = useTheme()
+  const { pathname } = useLocation()
+  const onHome = pathname === '/'
+  const active = useScrollSpy(onHome ? c.nav.map((n) => n.id) : [])
 
   return (
-    <header className={`topbar${open ? ' is-open' : ''}`}>
-      <div className="topbar__inner">
-        <Link className="topbar__logo" to="/" onClick={() => setOpen(false)}>
-          <span className="topbar__name">{profile.name}</span>
-          <span className="topbar__role">{profile.role}</span>
+    <header className="topbar">
+      <div className="wrap topbar-in">
+        <Link to="/" state={{ section: 'top' }} className="brand">
+          <span className="brand-mark" aria-hidden="true">YK</span>
+          <span className="brand-name">{profile.name}</span>
         </Link>
-
-        <nav className="topbar__nav" aria-label={ui.primaryNav}>
-          {nav.map((item) => {
-            const id = item.href.replace('#', '')
-            return (
-              <Link
-                key={item.href}
-                to="/"
-                state={{ section: id }}
-                onClick={(event) => handleSectionClick(event, id)}
-                className={activeId === id ? 'is-active' : undefined}
-                aria-current={activeId === id ? 'true' : undefined}
-              >
-                {item.label}
-              </Link>
-            )
-          })}
+        <nav className="topnav" aria-label={ui.primaryNav}>
+          {c.nav.map((item) => (
+            <Link
+              key={item.id}
+              to="/"
+              state={{ section: item.id }}
+              className={onHome && active === item.id ? 'is-active' : undefined}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
-
-        <div className="topbar__actions">
-          <a
-            className="btn btn-ghost topbar__cv"
-            href={profile.cvUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {ui.downloadCv}
-          </a>
+        <div className="topbar-actions">
+          <Link to="/" state={{ section: 'ask' }} className="btn btn-plain btn-sm">
+            <span className="sparkle" aria-hidden="true">✦</span>
+            <span className="btn-label-wide">{c.askAboutMe}</span>
+          </Link>
           <button
             type="button"
-            className="topbar__icon-btn"
-            onClick={openSettings}
-            aria-label={ui.settings.open}
-            title={ui.settings.open}
+            className="icon-btn"
+            onClick={cyclePreference}
+            aria-label={c.theme.toggle(c.theme[preference])}
+            title={c.theme.toggle(c.theme[preference])}
           >
-            <GearIcon />
+            <ThemeIcon mode={preference} />
           </button>
-          <button
-            type="button"
-            className="topbar__toggle"
-            aria-expanded={open}
-            aria-controls="topbar-menu"
-            onClick={() => setOpen((value) => !value)}
-          >
-            <span aria-hidden="true">{open ? '✕' : '☰'}</span>
-            <span className="sr-only">{open ? ui.closeMenu : ui.openMenu}</span>
+          <button type="button" className="icon-btn" onClick={toggleLang} aria-label={ui.langSwitchTo} title={ui.langSwitchTo}>
+            {ui.langName === 'العربية' ? 'ع' : 'EN'}
           </button>
-        </div>
-      </div>
-
-      <div className="topbar__menu" id="topbar-menu">
-        <nav className="topbar__menu-nav" aria-label={ui.primaryNav}>
-          {nav.map((item) => {
-            const id = item.href.replace('#', '')
-            return (
-              <Link
-                key={item.href}
-                to="/"
-                state={{ section: id }}
-                className={activeId === id ? 'is-active' : undefined}
-                onClick={(event) => handleSectionClick(event, id)}
-              >
-                {item.label}
-              </Link>
-            )
-          })}
-        </nav>
-        <div className="topbar__menu-foot">
-          <p className="topbar__status">
-            <span className="dot" aria-hidden="true" />
-            {ui.openToConversations}
-          </p>
-          <div className="topbar__socials">
-            <a href={`mailto:${profile.email}`} aria-label="Email" title="Email">
-              <Icon name="mail" />
-            </a>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              title="GitHub"
-            >
-              <Icon name="code" />
-            </a>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              title="LinkedIn"
-            >
-              <Icon name="network" />
-            </a>
-          </div>
-          <a
-            className="btn btn-ghost"
-            href={profile.cvUrl}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => setOpen(false)}
-          >
-            {ui.downloadCv}
+          <a className="btn btn-primary btn-sm" href={profile.cvUrl} target="_blank" rel="noreferrer">
+            {c.cv}
           </a>
         </div>
       </div>

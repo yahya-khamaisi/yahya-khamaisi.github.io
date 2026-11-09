@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { LangProvider } from './i18n/LangProvider'
-import { SettingsProvider } from './settings/SettingsProvider'
 import { SiteLayout } from './layouts/SiteLayout'
 import { HomePage } from './pages/HomePage'
 import { ProjectsPage } from './pages/ProjectsPage'
@@ -19,7 +18,6 @@ const legacyRedirects: Record<string, string> = {
 export default function App() {
   return (
     <LangProvider>
-      <SettingsProvider>
         <BrowserRouter>
           <Routes>
             <Route element={<SiteLayout />}>
@@ -39,7 +37,6 @@ export default function App() {
             </Route>
           </Routes>
         </BrowserRouter>
-      </SettingsProvider>
     </LangProvider>
   )
 }

@@ -1,101 +1,70 @@
+/* Design tokens. Dark is the default; [data-theme] is stamped on <html>
+   by ThemeProvider (and before paint by the script in index.html). */
 :root,
 [data-theme='dark'] {
-  /* Cool near-black neutrals stepped in even tonal degrees, with a
-     confident blue accent used on CTAs, links, and the one emphasised
-     node per diagram. Tuned for high text/background contrast. */
-  --bg: #0b0d10;
-  --bg-elevated: #12151a;
-  --surface: #171b21;
-  --surface-2: #1f242c;
-  --border: #2f353f;
-  --border-strong: #454e5b;
-  --ink: #f8fafc;
-  --ink-soft: #d2d7df;
-  --muted: #9aa2ae;
-  --accent: #2f6bed;
-  --accent-strong: #4d84f5;
-  --accent-soft: #7ea9ec;
-  --focus: #5b95ff;
-  --danger: #f0757c;
-  --ok: #56c98a;
-  --btn-fg: #ffffff;
-  --mock-bg: #12151a;
-  --mock-line: #2f353f;
-  --mock-accent: #d8dde4;
-  /* Category tints — distinct hues, mixed toward --ink so they stay
-     high-contrast in both themes. */
-  --tint-industry: #4b8bf5;
-  --tint-research: #a78bfa;
-  --tint-github: #8b95a3;
-  --tint-personal: #e0913f;
-  --tint-earlier: #46c07f;
-  --max: 1720px;
-  --measure: 68ch;
-  --radius: 14px;
-  --header-h: 4rem;
-  --gutter: clamp(1rem, 2vw, 2.5rem);
-  /* Claude.ai uses proprietary Styrene (UI) + Copernicus/Tiempos (headlines).
-     These are the closest free equivalents; the licensed names are kept first
-     so they're used automatically on machines that have them. */
-  --font-display: 'Copernicus', 'Tiempos Headline', 'Newsreader', Georgia,
-    'Times New Roman', serif;
-  --font-body: 'Styrene B', 'Styrene A', 'Inter', ui-sans-serif, system-ui,
-    -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --bg: #09090b;
+  --card: #131316;
+  --card-2: #18181c;
+  --ink: #f4f4f6;
+  --ink-2: #c8c8d0;
+  --muted: #8e8e98;
+  --line: #26262c;
+  --fill: #1e1e23;
+  --blue: #4c9aff;
+  --violet: #a98bff;
+  --btn: #0a6cff;
+  --ok: #3ddc84;
+  --grid: rgba(255, 255, 255, 0.06);
+  --shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.55);
   color-scheme: dark;
 }
 
-/* Arabic / RTL — swap in Arabic-capable faces (Latin fallbacks stay for
-   the tech terms that are kept in English). */
-:root[dir='rtl'] {
-  --font-display: 'Cairo', 'IBM Plex Sans Arabic', 'Newsreader', Georgia, serif;
-  --font-body: 'IBM Plex Sans Arabic', 'Inter', ui-sans-serif, system-ui,
-    -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
-
-/* Typeface preference (Settings) — editorial is the default above.
-   `modern` drops the serif headlines; `compact` sets mono headlines. */
-:root[data-font='modern'] {
-  --font-display: var(--font-body);
-}
-
-:root[data-font='compact'] {
-  --font-display: var(--font-mono);
-}
-
-/* Mono headlines have no Arabic glyphs — fall back to the body face. */
-:root[dir='rtl'][data-font='compact'] {
-  --font-display: var(--font-body);
-}
-
 [data-theme='light'] {
-  /* Same tonal roles, inverted — crisp cool paper, high contrast. */
-  --bg: #f4f6f9;
-  --bg-elevated: #ffffff;
-  --surface: #ffffff;
-  --surface-2: #e8ecf1;
-  --border: #d7dce4;
-  --border-strong: #b6bfcc;
-  --ink: #0a0d12;
-  --ink-soft: #2d3540;
-  --muted: #565e6b;
-  --accent: #1a4fd6;
-  --accent-strong: #123fb4;
-  --accent-soft: #2c5fd8;
-  --focus: #1a4fd6;
-  --danger: #c0331f;
-  --ok: #1c7a44;
-  --btn-fg: #ffffff;
-  --mock-bg: #ffffff;
-  --mock-line: #d7dce4;
-  --mock-accent: #1b2430;
-  /* Category tints — deepened for contrast on the light paper. */
-  --tint-industry: #1a4fd6;
-  --tint-research: #6d3fd0;
-  --tint-github: #495260;
-  --tint-personal: #b3560c;
-  --tint-earlier: #127a3c;
+  --bg: #f6f6f8;
+  --card: #ffffff;
+  --card-2: #fafafb;
+  --ink: #111114;
+  --ink-2: #3c3c43;
+  --muted: #63636b;
+  --line: #e4e4ea;
+  --fill: #f0f0f4;
+  --blue: #0060df;
+  --violet: #6a3fd4;
+  --btn: #0a6cff;
+  --ok: #1d7d37;
+  --grid: rgba(0, 0, 0, 0.06);
+  --shadow: 0 30px 60px -36px rgba(20, 20, 40, 0.28);
   color-scheme: light;
+}
+
+:root {
+  /* Spacing scale — every padding and gap snaps to one of these. */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 64px;
+  --s8: 128px;
+  --max: 1200px;
+  --gutter: 24px;
+  --header-h: 64px;
+  --radius: 22px;
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 16px;
+}
+
+:root[dir='rtl'] {
+  --font-body: 'IBM Plex Sans Arabic', 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --gutter: 16px;
+    --s8: 64px;
+  }
 }
 
 *,
@@ -104,28 +73,9 @@
   box-sizing: border-box;
 }
 
-/* Base type scale (Settings › Text size) — rem-based sizing across the
-   site keys off this. `medium` is the default. */
-:root {
-  font-size: clamp(15px, 14.5px + 0.2vw, 16.5px);
-}
-
-:root[data-font-size='small'] {
-  font-size: clamp(13.75px, 13.45px + 0.14vw, 15px);
-}
-
-:root[data-font-size='large'] {
-  font-size: clamp(16.5px, 15.7px + 0.26vw, 18.5px);
-}
-
 html {
-  /* iOS Safari otherwise inflates text in narrow columns ("font boosting"),
-     which pushes containers wider than the screen. */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* `hidden` on the root is the reliable way to stop iOS Safari expanding
-     the layout viewport (and letting the page scroll sideways) when some
-     descendant is a touch too wide. Vertical scroll is unaffected. */
   overflow-x: hidden;
 }
 
@@ -136,10 +86,14 @@ body {
   color: var(--ink);
   background: var(--bg);
   font-family: var(--font-body);
+  letter-spacing: -0.012em;
   font-synthesis: none;
-  font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+:root[dir='rtl'] body {
+  letter-spacing: 0;
 }
 
 #root {
@@ -150,8 +104,7 @@ body {
 
 a {
   color: inherit;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
+  text-decoration: none;
 }
 
 img,
@@ -160,13 +113,23 @@ svg {
   max-width: 100%;
 }
 
+/* width/height attributes reserve space; CSS sizing still wins. */
+img {
+  height: auto;
+}
+
 button,
-input,
-textarea {
+input {
   font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent) 28%, transparent);
-  color: var(--ink);
+  background: color-mix(in srgb, var(--blue) 30%, transparent);
 }

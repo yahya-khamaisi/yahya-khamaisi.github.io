@@ -2,8 +2,6 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
-import { SettingsPanel } from '../components/SettingsPanel'
-import { PhysicsField } from '../components/PhysicsField'
 import { ThemeProvider } from '../theme/ThemeProvider'
 import { useDocumentMeta } from '../hooks/useDocumentMeta'
 import { useUi } from '../i18n/useContent'
@@ -93,9 +91,7 @@ function Chrome() {
       <a className="skip-link" href="#main">
         {ui.skipToContent}
       </a>
-      <PhysicsField />
       <Header />
-      <SettingsPanel />
       <div className="page">
         <main id="main" tabIndex={-1}>
           <Outlet />
