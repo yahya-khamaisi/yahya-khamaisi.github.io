@@ -1,5 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="6" fill="#121214"/>
-  <path d="M8 22V10h3.2l4.1 8.4L19.4 10H22.5v12h-2.6v-7.2l-3.8 7.2h-1.6l-3.9-7.2V22H8z" fill="#F3F3F4"/>
-  <circle cx="24.5" cy="9.5" r="2" fill="#8D8D97"/>
+  <defs>
+    <linearGradient id="accent" x1="7" y1="0" x2="25" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4C9AFF"/>
+      <stop offset="1" stop-color="#A98BFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="#0E0E11"/>
+  <!-- YK drawn as strokes so it looks the same on every system font -->
+  <g stroke="#F4F4F6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6.5 8l4 6.2 4-6.2M10.5 14.2V20.5"/>
+    <path d="M18 8v12.5M25 8l-6.6 6.2L25 20.5"/>
+  </g>
+  <rect x="6.5" y="24" width="18.5" height="2.2" rx="1.1" fill="url(#accent)"/>
 </svg>
