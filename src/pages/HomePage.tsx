@@ -1,5 +1,5 @@
-import { Hero } from '../components/home/Hero'
-import { AgentConsole } from '../components/home/AgentConsole'
+import { Container } from '@/components/site'
+import { Bento } from '../components/home/Bento'
 import { WorkSection } from '../components/home/WorkSection'
 import { BuildSection } from '../components/home/BuildSection'
 import { ExperienceSection } from '../components/home/ExperienceSection'
@@ -9,18 +9,16 @@ import { ContactSection } from '../components/home/ContactSection'
 
 export function HomePage() {
   return (
-    <div className="home">
-      <div className="grid-bg" aria-hidden="true" />
-      <div className="wrap" style={{ position: 'relative' }}>
-        <Hero />
-        <AgentConsole />
+    <div>
+      <Container>
+        <Bento />
         <WorkSection />
         <BuildSection />
         <ExperienceSection />
         <SkillsSection />
         <EducationSection />
         <ContactSection />
-      </div>
+      </Container>
     </div>
   )
 }

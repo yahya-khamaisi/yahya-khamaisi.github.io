@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { cn } from '@/lib/utils'
 import { useCopy } from '../../i18n/useContent'
 import type { Scene } from '../../data/site'
+import { Eyebrow, Tag } from '../site'
 
 const TICK_MS = 45
 const CHARS_PER_TICK = 3
@@ -21,12 +26,16 @@ function prefersReducedMotion() {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
+function Caret({ ai }: { ai?: boolean }) {
+  return <span className={cn('ms-0.5 inline-block h-4 w-2 animate-pulse align-middle', ai ? 'bg-chart-2' : 'bg-chart-1')} />
+}
+
 /**
  * "Ask the portfolio": a scripted agent run that types a question, lights up
  * its trace, retrieves sources and streams a cited answer. Everything it says
  * comes from the page itself, and it is labelled as a scripted demo.
  */
-export function AgentConsole() {
+export function AgentConsole({ className }: { className?: string }) {
   const c = useCopy()
   const a = c.ask
   const [scene, setScene] = useState(0)
@@ -49,7 +58,7 @@ export function AgentConsole() {
     return () => window.clearInterval(id)
   }, [p.end, a.scenes.length])
 
-  const status = (from: number, to: number) => (tick < from ? '' : tick < to ? 'run' : 'done')
+  const status = (from: number, to: number) => (tick < from ? 'wait' : tick < to ? 'run' : 'done')
   const ranges: [number, number][] = [
     [p.typed, p.searched],
     [p.searched, p.answering],
@@ -67,76 +76,68 @@ export function AgentConsole() {
   }
 
   return (
-    <section id="ask" className="ask">
-      <div className="card console">
-        <div className="console-head">
-          <span className="console-live mono">
-            <span className="live-dot" />
-            {a.agent}
-          </span>
-          <span className="console-hint">{a.hint}</span>
-          <div className="qtabs" role="tablist" aria-label={a.examples}>
+    <Card id="ask" className={cn('scroll-mt-24 gap-0 py-0', className)}>
+      <div className="flex flex-wrap items-center gap-3 border-b px-4 py-3">
+        <span className="inline-flex items-center gap-2 font-mono text-sm text-muted-foreground">
+          <span className="size-2 animate-pulse rounded-full bg-chart-2" />
+          {a.agent}
+        </span>
+        <Tabs value={scene} onValueChange={(v) => pick(Number(v))} className="ms-auto">
+          <TabsList aria-label={a.examples}>
             {a.scenes.map((s, i) => (
-              <button
-                key={s.tab}
-                type="button"
-                role="tab"
-                className="qtab"
-                aria-selected={i === scene}
-                onClick={() => pick(i)}
-              >
-                {s.tab}
-              </button>
+              <TabsTrigger key={s.tab} value={i}>{s.tab}</TabsTrigger>
             ))}
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div className="grid min-h-72 grid-cols-1 md:grid-cols-2">
+        <div className="flex flex-col gap-4 border-b p-5 md:border-e md:border-b-0">
+          <Eyebrow>{a.question}</Eyebrow>
+          <span className="min-h-14 text-lg leading-snug font-semibold">
+            {current.question.slice(0, Math.min(tick, p.typed))}
+            {typing && <Caret />}
+          </span>
+          <Eyebrow>{a.trace}</Eyebrow>
+          <div className="flex flex-col gap-0.5">
+            {a.steps.map((step, i) => {
+              const st = status(...ranges[i])
+              return (
+                <div
+                  key={step.label}
+                  className={cn('flex items-center gap-3 rounded-lg px-2.5 py-1.5 text-sm text-muted-foreground transition-colors', st === 'run' && 'bg-muted text-foreground', st === 'done' && 'text-foreground/80')}
+                >
+                  <span className={cn('size-2 shrink-0 rounded-full border-2 border-border', st === 'run' && 'animate-pulse border-chart-2 bg-chart-2', st === 'done' && 'border-chart-3 bg-chart-3')} />
+                  <span className="grow">{step.label}</span>
+                  <span className="font-mono text-xs">{st === 'done' ? step.meta(current) : ''}</span>
+                </div>
+              )
+            })}
           </div>
         </div>
-        <div className="console-grid">
-          <div className="console-col">
-            <span className="label">{a.question}</span>
-            <span className="q-text">
-              {current.question.slice(0, Math.min(tick, p.typed))}
-              {typing && <span className="caret" />}
-            </span>
-            <span className="label">{a.trace}</span>
-            <div className="steps">
-              {a.steps.map((step, i) => {
-                const st = status(...ranges[i])
-                return (
-                  <div key={step.label} className={`step ${st}`}>
-                    <span className="step-dot" />
-                    <span>{step.label}</span>
-                    <span className="step-meta">{st === 'done' ? step.meta(current) : ''}</span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          <div className="console-col alt">
-            <span className="label">{a.retrieved}</span>
+
+        <div className="flex flex-col gap-3 p-5">
+          <Eyebrow>{a.retrieved}</Eyebrow>
+          <div className="flex min-h-7 flex-wrap gap-1.5">
             {current.sources.slice(0, shownSources).map((src, i) => (
-              <Link key={src.title} to="/" state={{ section: src.href.slice(1) }} className="src-card">
-                <span className="src-n">{i + 1}</span>
-                <span className="src-title">
-                  <span className="label">{src.kind}</span>
-                  {src.title}
-                </span>
-              </Link>
+              <Badge key={src.title} variant="outline" className="h-7 animate-in gap-1.5 fade-in slide-in-from-left-2" render={<Link to="/" state={{ section: src.href.slice(1) }} />}>
+                <span className="font-mono text-chart-2">{i + 1}</span>
+                {src.title}
+              </Badge>
             ))}
-            {shownSources === 0 && <span className="waiting">{a.waiting}</span>}
+            {shownSources === 0 && <span className="text-sm text-muted-foreground">{a.waiting}</span>}
           </div>
-          <div className="console-col">
-            <span className="label">{a.answer}</span>
-            <p className="answer">
-              {current.answer.slice(0, answerLen)}
-              {answering && <span className="caret ai" />}
-            </p>
-            <div className="console-foot">
-              {tick >= p.checked && <span className="chip grounded">{a.grounded}</span>}
-              <span className="disclaimer mono">{a.disclaimer}</span>
-            </div>
+          <Eyebrow>{a.answer}</Eyebrow>
+          <p className="min-h-32 leading-relaxed">
+            {current.answer.slice(0, answerLen)}
+            {answering && <Caret ai />}
+          </p>
+          <div className="mt-auto flex flex-wrap items-center gap-2">
+            {tick >= p.checked && <Tag className="text-chart-3">{a.grounded}</Tag>}
+            <span className="ms-auto font-mono text-xs text-muted-foreground">{a.disclaimer}</span>
           </div>
         </div>
       </div>
-    </section>
+    </Card>
   )
 }

@@ -1,80 +1,35 @@
-import { useContent, useCopy } from '../../i18n/useContent'
-import { orbitTools } from '../../data/site'
+import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
+import { useCopy } from '../../i18n/useContent'
 import { Reveal } from '../Reveal'
+import { Eyebrow, SectionHead, type Tone } from '../site'
 
-/** Places `n` chips evenly on a circle, as percentages of the ring box. */
-function ringPositions(n: number, offsetDeg = 0) {
-  return Array.from({ length: n }, (_, i) => {
-    const a = ((offsetDeg + (360 / n) * i) * Math.PI) / 180
-    return { left: `${50 + 50 * Math.cos(a)}%`, top: `${50 + 50 * Math.sin(a)}%` }
-  })
-}
-
-function Ring({ tools, inner }: { tools: string[]; inner?: boolean }) {
-  const spots = ringPositions(tools.length)
+function SkillList({ title, rows, tone }: { title: string; rows: [string, string][]; tone: Tone }) {
   return (
-    <div className={`ring-o${inner ? ' inner' : ''}`}>
-      {tools.map((tool, i) => (
-        <span key={tool} className="orbit-pos" style={spots[i]}>
-          <span className="orbit-counter">
-            <span className={`ochip${inner ? ' ai' : ''}`}>{tool}</span>
-          </span>
-        </span>
-      ))}
-    </div>
+    <Reveal>
+      <Card className="h-full gap-0 p-6 md:p-8">
+        <Eyebrow className={cn('pb-2', tone === 'ai' ? 'text-chart-2' : 'text-chart-1')}>{title}</Eyebrow>
+        {rows.map(([skill, where]) => (
+          <div key={skill} className="flex items-baseline justify-between gap-3 border-t py-3">
+            <b className="font-semibold">{skill}</b>
+            <span className="text-end text-sm text-muted-foreground">{where}</span>
+          </div>
+        ))}
+      </Card>
+    </Reveal>
   )
 }
 
 export function SkillsSection() {
-  const { profile } = useContent()
-  const c = useCopy()
-  const s = c.skills
-  const list = (title: string, rows: [string, string][], tone: 'ai' | 'fs') => (
-    <Reveal className="card skill-card">
-      <span className={`label tone-${tone}`}>{title}</span>
-      {rows.map(([skill, where]) => (
-        <div key={skill} className="skill-row">
-          <b>{skill}</b>
-          <span>{where}</span>
-        </div>
-      ))}
-    </Reveal>
-  )
+  const s = useCopy().skills
 
   return (
-    <section id="skills" className="section">
-      <Reveal className="sec-head">
-        <span className="sec-num">{s.num}</span>
-        <h2 className="h2">{s.title}</h2>
-        <p className="lead">{s.lead}</p>
-      </Reveal>
+    <section id="skills" className="flex scroll-mt-20 flex-col gap-8 pb-16 md:pb-32">
+      <SectionHead num={s.num} title={s.title} lead={s.lead} />
 
-      <Reveal className="card orbit-card">
-        <div className="orbit" role="img" aria-label={`${s.inner}: ${orbitTools.ai.join(', ')}. ${s.outer}: ${orbitTools.fs.join(', ')}.`}>
-          <Ring tools={orbitTools.fs} />
-          <Ring tools={orbitTools.ai} inner />
-          <div className="orbit-core">
-            <img src={profile.photo} alt="" />
-          </div>
-        </div>
-        <div className="orbit-copy">
-          <span className="label">{s.orbitLabel}</span>
-          <h3>
-            {s.orbitTitle[0]}
-            <br />
-            <span>{s.orbitTitle[1]}</span>
-          </h3>
-          <div className="orbit-legend">
-            <span><i className="legend-ring ai" />{s.inner}</span>
-            <span><i className="legend-ring" />{s.outer}</span>
-          </div>
-          <p>{s.orbitBody}</p>
-        </div>
-      </Reveal>
-
-      <div className="skill-lists">
-        {list(s.aiTitle, s.ai, 'ai')}
-        {list(s.fsTitle, s.fs, 'fs')}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <SkillList title={s.aiTitle} rows={s.ai} tone="ai" />
+        <SkillList title={s.fsTitle} rows={s.fs} tone="fs" />
       </div>
     </section>
   )

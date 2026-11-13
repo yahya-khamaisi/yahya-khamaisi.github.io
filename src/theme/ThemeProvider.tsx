@@ -47,6 +47,8 @@ function readStoredPreference(): ThemePreference {
 function applyTheme(preference: ThemePreference, resolved: ResolvedTheme) {
   const root = document.documentElement
   root.dataset.theme = resolved
+  // shadcn's dark: variant keys off this class.
+  root.classList.toggle('dark', resolved === 'dark')
   root.dataset.themePreference = preference
   root.style.colorScheme = resolved
 }

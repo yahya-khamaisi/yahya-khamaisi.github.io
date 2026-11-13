@@ -29,14 +29,14 @@ export type ProjectMeta = {
 
 export const groupOrder: GroupKey[] = ['te', 'tw', 'cr', 'ea', 'rs', 'pe']
 
-/** Bar colour per group in the project-count charts. */
+/** Colour per group in the project-count charts (shadcn chart tokens). */
 export const groupTone: Record<GroupKey, string> = {
-  te: 'linear-gradient(90deg, var(--blue), var(--violet))',
-  tw: 'var(--blue)',
-  cr: 'var(--violet)',
-  ea: 'color-mix(in srgb, var(--blue) 60%, var(--fill))',
-  rs: 'color-mix(in srgb, var(--violet) 60%, var(--fill))',
-  pe: 'var(--muted)',
+  te: 'bg-chart-2',
+  tw: 'bg-chart-1',
+  cr: 'bg-chart-2',
+  ea: 'bg-chart-1',
+  rs: 'bg-chart-2',
+  pe: 'bg-chart-4',
 }
 
 
@@ -73,27 +73,30 @@ export const projectMeta: Record<string, ProjectMeta> = {
 export const caseStudySlugs = ['te-ai-portal', 'reimbursement-portal', 'mhvoucher'] as const
 export type CaseStudySlug = (typeof caseStudySlugs)[number]
 
-/** Career bars on a 2020 → 2027 axis, in the same order as `experience`. */
-export const careerSpans: [number, number][] = [
-  [2026.25, 2026.9],
-  [2024, 2026.2],
-  [2022.6, 2024.05],
-  [2021.67, 2022.62],
-  [2020.5, 2021.62],
+/**
+ * Career bars on a 2020 → 2026 axis of 28 quarters, in the same order as
+ * `experience`. Written as literal classes so Tailwind generates them.
+ */
+export const careerSpans: string[] = [
+  'col-start-26 col-span-3', // Takaful Emarat, Apr 2026 – now
+  'col-start-17 col-span-9', // Trinity Wizards, Jan 2024 – Mar 2026
+  'col-start-11 col-span-6', // CoolRIOTS, Aug 2022 – Jan 2024
+  'col-start-7 col-span-4', // Wavelet Solutions, Sep 2021 – Aug 2022
+  'col-start-3 col-span-5', // Karisma System M, Jul 2020 – Aug 2021
 ]
 
 export type Layer = 'ui' | 'api' | 'agents' | 'retrieval' | 'cloud'
 export const layerOrder: Layer[] = ['ui', 'api', 'agents', 'retrieval', 'cloud']
 export const aiLayers: Layer[] = ['agents', 'retrieval']
 
-/** Which layers each project touched, from its stack. [from, to] are 1-based layer indexes. */
-export const coverage: { slug: string; spans: [number, number][]; tone: 'mix' | 'ai' | 'fs' }[] = [
-  { slug: 'te-ai-portal', spans: [[1, 5]], tone: 'mix' },
-  { slug: 'serverless-ai-chatbot', spans: [[1, 5]], tone: 'mix' },
-  { slug: 'coolriots-rag', spans: [[2, 4]], tone: 'ai' },
-  { slug: 'bexinsight', spans: [[2, 5]], tone: 'mix' },
-  { slug: 'reimbursement-portal', spans: [[1, 2], [5, 5]], tone: 'fs' },
-  { slug: 'mhvoucher', spans: [[1, 2], [5, 5]], tone: 'fs' },
+/** Which layers each project touched, from its stack. Column 1 holds the name; layers are columns 2–6. */
+export const coverage: { slug: string; spans: string[]; tone: 'mix' | 'ai' | 'fs' }[] = [
+  { slug: 'te-ai-portal', spans: ['col-start-2 col-span-5'], tone: 'mix' },
+  { slug: 'serverless-ai-chatbot', spans: ['col-start-2 col-span-5'], tone: 'mix' },
+  { slug: 'coolriots-rag', spans: ['col-start-3 col-span-3'], tone: 'ai' },
+  { slug: 'bexinsight', spans: ['col-start-3 col-span-4'], tone: 'mix' },
+  { slug: 'reimbursement-portal', spans: ['col-start-2 col-span-2', 'col-start-6 col-span-1'], tone: 'fs' },
+  { slug: 'mhvoucher', spans: ['col-start-2 col-span-2', 'col-start-6 col-span-1'], tone: 'fs' },
 ]
 
 export const orbitTools = {
@@ -101,7 +104,7 @@ export const orbitTools = {
   fs: ['Next.js', 'React', 'TypeScript', 'FastAPI', 'NestJS', 'Node.js', 'Azure Functions', 'PostgreSQL', 'Redis', 'Docker'],
 }
 
-export const marqueeTools = {
+export const featuredTools = {
   ai: ['Azure AI Foundry', 'LangChain', 'OpenAI', 'Milvus', 'Elasticsearch', 'Azure AI Search', 'Document Intelligence', 'AWS Bedrock', 'TensorFlow'],
   fs: ['Python', 'FastAPI', 'Next.js', 'React', 'TypeScript', 'NestJS', 'Node.js', 'Azure Functions', 'PostgreSQL', 'Redis', 'Docker', 'AWS Lambda'],
 }
@@ -117,6 +120,18 @@ export type Copy = {
   nav: { id: string; label: string }[]
   askAboutMe: string
   cv: string
+  command: {
+    open: string
+    title: string
+    placeholder: string
+    empty: string
+    sections: string
+    projects: string
+    actions: string
+    toggleTheme: string
+    switchLang: string
+    email: string
+  }
   theme: { system: string; light: string; dark: string; toggle: (current: string) => string }
   hero: {
     chips: string[]
@@ -126,7 +141,8 @@ export type Copy = {
     sub: string
     primary: string
     secondary: string
-    proof: { value: string; label: string; tone?: 'ai' | 'fs' }[]
+    /** Counted up by Number Ticker: pre + n + suf. */
+    proof: { n: number; pre?: string; suf: string; label: string; tone?: 'ai' | 'fs' }[]
     toolsLabel: string
   }
   ask: {
@@ -261,6 +277,18 @@ const en: Copy = {
   ],
   askAboutMe: 'Ask about me',
   cv: 'CV',
+  command: {
+    open: 'Search',
+    title: 'Search the portfolio',
+    placeholder: 'Jump to a section or project…',
+    empty: 'Nothing matches.',
+    sections: 'Sections',
+    projects: 'Projects',
+    actions: 'Actions',
+    toggleTheme: 'Change theme',
+    switchLang: 'التبديل إلى العربية',
+    email: 'Email Yahya',
+  },
   theme: {
     system: 'System',
     light: 'Light',
@@ -276,10 +304,10 @@ const en: Copy = {
     primary: 'See the work',
     secondary: 'Ask the portfolio',
     proof: [
-      { value: '6+ yrs', label: 'enterprise delivery, 5 companies' },
-      { value: '5 agents', label: 'live on Azure AI Foundry', tone: 'ai' },
-      { value: '~60%', label: 'lower search latency, BeXInsight', tone: 'fs' },
-      { value: '4 papers', label: 'PhD research in applied AI' },
+      { n: 6, suf: '+ yrs', label: 'enterprise delivery, 5 companies' },
+      { n: 5, suf: ' agents', label: 'live on Azure AI Foundry', tone: 'ai' },
+      { n: 60, pre: '~', suf: '%', label: 'lower search latency, BeXInsight', tone: 'fs' },
+      { n: 4, suf: ' papers', label: 'PhD research in applied AI' },
     ],
     toolsLabel: 'Tools I use',
   },
@@ -537,6 +565,18 @@ const ar: Copy = {
   ],
   askAboutMe: 'اسأل عني',
   cv: 'السيرة الذاتية',
+  command: {
+    open: 'بحث',
+    title: 'ابحث في المعرض',
+    placeholder: 'انتقل إلى قسم أو مشروع…',
+    empty: 'لا توجد نتائج.',
+    sections: 'الأقسام',
+    projects: 'المشاريع',
+    actions: 'إجراءات',
+    toggleTheme: 'تغيير المظهر',
+    switchLang: 'Switch to English',
+    email: 'راسل يحيى',
+  },
   theme: {
     system: 'النظام',
     light: 'فاتح',
@@ -552,10 +592,10 @@ const ar: Copy = {
     primary: 'شاهد الأعمال',
     secondary: 'اسأل المعرض',
     proof: [
-      { value: '+6 سنوات', label: 'تسليم مؤسسي في 5 شركات' },
-      { value: '5 وكلاء', label: 'يعملون على Azure AI Foundry', tone: 'ai' },
-      { value: '~60%', label: 'أسرع في البحث، BeXInsight', tone: 'fs' },
-      { value: '4 أوراق', label: 'بحث دكتوراه في الذكاء الاصطناعي' },
+      { n: 6, pre: '+', suf: ' سنوات', label: 'تسليم مؤسسي في 5 شركات' },
+      { n: 5, suf: ' وكلاء', label: 'يعملون على Azure AI Foundry', tone: 'ai' },
+      { n: 60, pre: '~', suf: '%', label: 'أسرع في البحث، BeXInsight', tone: 'fs' },
+      { n: 4, suf: ' أوراق', label: 'بحث دكتوراه في الذكاء الاصطناعي' },
     ],
     toolsLabel: 'الأدوات التي أستخدمها',
   },

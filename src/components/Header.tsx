@@ -1,83 +1,53 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { Monitor, Moon, Search, Sun } from 'lucide-react'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { useContent, useCopy } from '../i18n/useContent'
 import { useLang } from '../i18n/LangProvider'
 import { useTheme } from '../theme/ThemeProvider'
-import { useScrollSpy } from '../hooks/useScrollSpy'
+import { useOpenCommandMenu } from './commandMenuContext'
+import { Container } from './site'
 
-function ThemeIcon({ mode }: { mode: 'system' | 'light' | 'dark' }) {
-  if (mode === 'light') {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="4" />
-        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-      </svg>
-    )
-  }
-  if (mode === 'dark') {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-      </svg>
-    )
-  }
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="13" rx="2" />
-      <path d="M8 21h8M12 17v4" />
-    </svg>
-  )
-}
+const themeIcon = { system: Monitor, light: Sun, dark: Moon }
 
+/** Slim top bar: identity on the start side, search and settings on the end. Sections live in the Dock. */
 export function Header() {
   const { profile, ui } = useContent()
   const c = useCopy()
+  const openMenu = useOpenCommandMenu()
   const { toggleLang } = useLang()
   const { preference, cyclePreference } = useTheme()
-  const { pathname } = useLocation()
-  const onHome = pathname === '/'
-  const active = useScrollSpy(onHome ? c.nav.map((n) => n.id) : [])
+  const ThemeIcon = themeIcon[preference]
+  const themeLabel = c.theme.toggle(c.theme[preference])
 
   return (
-    <header className="topbar">
-      <div className="wrap topbar-in">
-        <Link to="/" state={{ section: 'top' }} className="brand">
-          <span className="brand-mark" aria-hidden="true">YK</span>
-          <span className="brand-name">{profile.name}</span>
+    <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur-xl">
+      <Container className="flex h-14 items-center gap-3">
+        <Link to="/" state={{ section: 'top' }} className="flex items-center gap-2.5 text-sm font-semibold whitespace-nowrap">
+          <span aria-hidden="true" className="inline-flex size-7 items-center justify-center rounded-lg bg-foreground font-mono text-xs font-semibold text-background">
+            YK
+          </span>
+          <span className="max-sm:hidden">{profile.name}</span>
+          <span className="font-normal text-muted-foreground max-md:hidden">· {profile.role}</span>
         </Link>
-        <nav className="topnav" aria-label={ui.primaryNav}>
-          {c.nav.map((item) => (
-            <Link
-              key={item.id}
-              to="/"
-              state={{ section: item.id }}
-              className={onHome && active === item.id ? 'is-active' : undefined}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="topbar-actions">
-          <Link to="/" state={{ section: 'ask' }} className="btn btn-plain btn-sm">
-            <span className="sparkle" aria-hidden="true">✦</span>
-            <span className="btn-label-wide">{c.askAboutMe}</span>
-          </Link>
-          <button
-            type="button"
-            className="icon-btn"
-            onClick={cyclePreference}
-            aria-label={c.theme.toggle(c.theme[preference])}
-            title={c.theme.toggle(c.theme[preference])}
-          >
-            <ThemeIcon mode={preference} />
-          </button>
-          <button type="button" className="icon-btn" onClick={toggleLang} aria-label={ui.langSwitchTo} title={ui.langSwitchTo}>
+
+        <div className="ms-auto flex items-center gap-2">
+          <Button variant="outline" className="h-9 gap-2 rounded-full ps-3 pe-2 text-muted-foreground" onClick={openMenu}>
+            <Search />
+            <span className="max-sm:hidden">{c.command.open}</span>
+            <kbd className="rounded border bg-muted px-1.5 font-mono text-xs max-sm:hidden">⌘K</kbd>
+          </Button>
+          <Button variant="outline" size="icon" className="size-9 rounded-full" onClick={cyclePreference} aria-label={themeLabel} title={themeLabel}>
+            <ThemeIcon />
+          </Button>
+          <Button variant="outline" size="icon" className="size-9 rounded-full text-xs font-semibold" onClick={toggleLang} aria-label={ui.langSwitchTo} title={ui.langSwitchTo}>
             {ui.langName === 'العربية' ? 'ع' : 'EN'}
-          </button>
-          <a className="btn btn-primary btn-sm" href={profile.cvUrl} target="_blank" rel="noreferrer">
+          </Button>
+          <a href={profile.cvUrl} target="_blank" rel="noreferrer" className={cn(buttonVariants(), 'h-9 rounded-full px-4')}>
             {c.cv}
           </a>
         </div>
-      </div>
+      </Container>
     </header>
   )
 }

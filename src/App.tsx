@@ -4,7 +4,6 @@ import { SiteLayout } from './layouts/SiteLayout'
 import { HomePage } from './pages/HomePage'
 import { ProjectsPage } from './pages/ProjectsPage'
 import { ProjectDetailPage } from './pages/ProjectDetailPage'
-import './App.css'
 
 /** Old multi-page routes now map to sections of the single page. */
 const legacyRedirects: Record<string, string> = {

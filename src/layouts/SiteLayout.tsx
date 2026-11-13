@@ -1,7 +1,10 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
+import { MotionConfig } from 'motion/react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
+import { CommandMenuProvider } from '../components/CommandMenu'
+import { DockNav } from '../components/DockNav'
 import { ThemeProvider } from '../theme/ThemeProvider'
 import { useDocumentMeta } from '../hooks/useDocumentMeta'
 import { useUi } from '../i18n/useContent'
@@ -88,16 +91,22 @@ function Chrome() {
   return (
     <>
       <RouteScroll />
-      <a className="skip-link" href="#main">
+      <a
+        className="absolute -top-12 start-4 z-20 rounded-full bg-primary px-4 py-2 font-semibold text-primary-foreground focus:top-3"
+        href="#main"
+      >
         {ui.skipToContent}
       </a>
-      <Header />
-      <div className="page">
-        <main id="main" tabIndex={-1}>
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
+      <CommandMenuProvider>
+        <Header />
+        <div className="pb-24">
+          <main id="main" tabIndex={-1} className="focus:outline-none">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+        <DockNav />
+      </CommandMenuProvider>
     </>
   )
 }
@@ -105,7 +114,10 @@ function Chrome() {
 export function SiteLayout() {
   return (
     <ThemeProvider>
-      <Chrome />
+      {/* Magic UI animations honour the visitor's reduce-motion setting. */}
+      <MotionConfig reducedMotion="user">
+        <Chrome />
+      </MotionConfig>
     </ThemeProvider>
   )
 }
